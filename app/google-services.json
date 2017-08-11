@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1024105006143",
+    "firebase_url": "https://android-project-c7a05.firebaseio.com",
+    "project_id": "android-project-c7a05",
+    "storage_bucket": "android-project-c7a05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024105006143:android:65e658dd1e451c25",
+        "android_client_info": {
+          "package_name": "com.sefi.finalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024105006143-07ap6qd6ksucks4dh11h5kid220rm0om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQyCh1qfD4pNFC8clfrhwC5UuYS6O-Nbw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
