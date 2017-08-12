@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:text="Submit user"/>
+        android:text="Submit details"/>
         <Button
             android:id="@+id/register_fragment_clear"
             android:layout_width="0dp"

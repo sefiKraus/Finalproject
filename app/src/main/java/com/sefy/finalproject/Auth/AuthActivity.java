@@ -13,7 +13,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-        LoginFragment loginFragment = new LoginFragment();
+        LoginFragment loginFragment = LoginFragment.newInstance();
         /**
          * setting transaction in order to display register fragment
          */
@@ -34,6 +34,9 @@ public class AuthActivity extends Activity implements RegisterFragment.OnFragmen
 
     @Override
     public void onClickRegisterButton() {
-        Log.d("TAG","display register fragment");
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        RegisterFragment registerFragment = RegisterFragment.newInstance();
+        fragmentTransaction.replace(R.id.auth_frag_container,registerFragment);
+        fragmentTransaction.commit();
     }
 }
