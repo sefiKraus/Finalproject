@@ -7,7 +7,10 @@ import android.media.Image;
  */
 
 public class BrandModel {
-    private int id;
+
+
+
+    private String id;
     private String name;
     private Image image;
     private String description;
@@ -15,20 +18,13 @@ public class BrandModel {
     public BrandModel() {
     }
 
-    public BrandModel(int id, String name, Image image, String description) {
+    public BrandModel(String id, String name, Image image, String description) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.description = description;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

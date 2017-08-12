@@ -7,7 +7,7 @@ import android.media.Image;
  */
 
 public class ItemModel {
-    private int id;
+    private String id;
     private String name;
     private int price;
     private Image image;
@@ -18,7 +18,7 @@ public class ItemModel {
     public ItemModel() {
     }
 
-    public ItemModel(int id, String name, int price, Image image, String description, int brandId, String brandName) {
+    public ItemModel(String id, String name, int price, Image image, String description, int brandId, String brandName) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -28,56 +28,8 @@ public class ItemModel {
         this.brandName = brandName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        ItemModel itemModel = (ItemModel) o;
 
-        if (id != itemModel.id) return false;
-        if (price != itemModel.price) return false;
-        if (brandId != itemModel.brandId) return false;
-        if (name != null ? !name.equals(itemModel.name) : itemModel.name != null) return false;
-        if (image != null ? !image.equals(itemModel.image) : itemModel.image != null) return false;
-        if (description != null ? !description.equals(itemModel.description) : itemModel.description != null)
-            return false;
-        return brandName != null ? brandName.equals(itemModel.brandName) : itemModel.brandName == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + brandId;
-        result = 31 * result + (brandName != null ? brandName.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ItemModel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", image=" + image +
-                ", description='" + description + '\'' +
-                ", brandId=" + brandId +
-                ", brandName='" + brandName + '\'' +
-                '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

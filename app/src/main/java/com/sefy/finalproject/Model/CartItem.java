@@ -5,6 +5,8 @@ package com.sefy.finalproject.Model;
  */
 
 public class CartItem {
+
+
     private ItemModel item;
     private int quantity;
     private int totalPrice;
