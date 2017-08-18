@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.sefy.finalproject.Model.BrandModel;
@@ -21,6 +22,7 @@ import java.util.Vector;
 public class BrandListFragment extends Fragment {
     BrandListAdapter adapter;
     private ListView brandList;
+    private SearchView searchBar;
     private static Vector<BrandModel> brandListVector;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -51,6 +53,7 @@ public class BrandListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View contentView =  inflater.inflate(R.layout.fragment_brand_list, container, false);
         this.brandList = (ListView) contentView.findViewById(R.id.brand_list_fragment_list);
+        this.searchBar = (SearchView) contentView.findViewById(R.id.brand_list_fragment_search);
 
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);

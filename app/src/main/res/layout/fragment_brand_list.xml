@@ -3,11 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.sefy.finalproject.Brand.BrandListFragment"
+    android:orientation="vertical"
     >
+    <SearchView
+        android:id="@+id/brand_list_fragment_search"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        ></SearchView>
     <ListView
         android:id="@+id/brand_list_fragment_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        >
     </ListView>
 </LinearLayout>
