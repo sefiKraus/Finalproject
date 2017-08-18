@@ -14,8 +14,8 @@ import android.widget.EditText;
 import com.sefy.finalproject.R;
 
 public class LoginFragment extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
+    //TODO: set email pattern validator and password pattern
+    private OnLoginListener mListener;
     private EditText email,password;
     private Button login,register;
 
@@ -68,8 +68,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnLoginListener) {
+            mListener = (OnLoginListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -82,7 +82,7 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
+    public interface OnLoginListener {
         void onSubmitLogin(String userEmail, String userPassword);
         void onClickRegisterButton();
     }

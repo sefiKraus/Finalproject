@@ -9,17 +9,15 @@ public class UserModel {
     private String lastName;
     private String email;
     private String password;
-    private int id;
 
     public UserModel() {
     }
 
-    public UserModel(String firstName, String lastName, String email, String password, int id) {
+    public UserModel(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.id = id;
     }
 
     @Override
@@ -29,7 +27,6 @@ public class UserModel {
 
         UserModel userModel = (UserModel) o;
 
-        if (id != userModel.id) return false;
         if (firstName != null ? !firstName.equals(userModel.firstName) : userModel.firstName != null)
             return false;
         if (lastName != null ? !lastName.equals(userModel.lastName) : userModel.lastName != null)
@@ -45,7 +42,6 @@ public class UserModel {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + id;
         return result;
     }
 
@@ -56,7 +52,6 @@ public class UserModel {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", id=" + id +
                 '}';
     }
 
@@ -90,13 +85,5 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
