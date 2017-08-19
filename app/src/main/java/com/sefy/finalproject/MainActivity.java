@@ -24,6 +24,15 @@ public class MainActivity extends Activity {
         user_manager.update("1",user2);
          user2 = user_manager.read("1");
         Log.d("test",user2.getFirstName());
+        user_manager.remove(user2.getId());
+        user2 = user_manager.read("1");
+        if(user2==null){
+            Log.d("test","Removed !");
+        }
+        else{
+            Log.d("test","Failed to remove!");
+
+        }
 
 
 

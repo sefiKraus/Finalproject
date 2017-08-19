@@ -2,6 +2,12 @@ package com.sefy.finalproject.Model;
 
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Iterator;
 
 /**
@@ -9,6 +15,66 @@ import java.util.Iterator;
  */
 
 public class UserManager extends CommonManager<UserModel> {
+
+
+
+    boolean addUserDB(UserModel obj){
+
+
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("users");
+            myRef.child(obj.getId()).setValue(obj);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+  boolean deleteUserDB(String id){
+
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("users");
+            myRef.child(id).removeValue();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    interface GetUserCallback {
+        void onComplete(UserModel user);
+        void onCancel();
+    }
+
+
+
+
+    public void getUserDB(String stId, final GetUserCallback callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+        myRef.child(stId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                callback.onComplete(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCancel();
+            }
+        });
+    }
+
+
+
 
 
     @Override
@@ -31,6 +97,7 @@ public class UserManager extends CommonManager<UserModel> {
             temp = (UserModel) it.next();
             if (temp.getId() == id) {
                 list.remove(temp);
+                deleteUserDB(id);
                 return true;
             }
 
@@ -46,6 +113,7 @@ public class UserManager extends CommonManager<UserModel> {
         if (remove(id)) {
             newobj.setId(id);
             if (add(newobj)) {
+                addUserDB(newobj);
                 return true;
             }
         }
