@@ -35,6 +35,13 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
     public void onSubmitLogin(String userEmail, String userPassword) {
         if(this.login(userEmail,userPassword)){
             Intent homeActivity =  new Intent(getApplicationContext(), HomeActivity.class);
+            Bundle bundle = new Bundle();
+            UserModel user = this.getUserFromList(userEmail);
+            bundle.putString("userFirstName", user.getFirstName());
+            bundle.putString("userLastName", user.getLastName());
+            bundle.putString("userEmail", user.getEmail());
+            bundle.putString("userPassword", user.getPassword());
+            homeActivity.putExtras(bundle);
             startActivity(homeActivity);
         }
         else{
@@ -47,9 +54,23 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
     public void onClickRegisterButton() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         RegisterFragment registerFragment = RegisterFragment.newInstance();
-        fragmentTransaction.replace(R.id.auth_frag_container,registerFragment);
         fragmentTransaction.addToBackStack("GoToRegisterPage");
+        fragmentTransaction.replace(R.id.auth_frag_container,registerFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSubmitRegister(String firstName, String lastName, String email, String password) {
+        if(this.register(firstName,lastName,email,password)){
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            LoginFragment loginFragment = LoginFragment.newInstance();
+            fragmentTransaction.addToBackStack("GoToLoginPage");
+            fragmentTransaction.replace(R.id.auth_frag_container,loginFragment);
+            fragmentTransaction.commit();
+        }
+        else{
+            Log.d("TAG","Email already exists");
+        }
     }
 /*--------------------------"Move to FireBase"----------------------------------*/
 
@@ -128,17 +149,4 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         return false;
     }
 
-    @Override
-    public void onSubmitRegister(String firstName, String lastName, String email, String password) {
-        if(this.register(firstName,lastName,email,password)){
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            LoginFragment loginFragment = LoginFragment.newInstance();
-            fragmentTransaction.replace(R.id.auth_frag_container,loginFragment);
-            fragmentTransaction.addToBackStack("GoToLoginPage");
-            fragmentTransaction.commit();
-        }
-        else{
-            Log.d("TAG","Email already exists");
-        }
-    }
 }

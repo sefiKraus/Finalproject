@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,11 +28,10 @@ public class BrandListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnBrandListListener mListener;
 
     public BrandListFragment() {
         // Required empty public constructor
@@ -40,6 +40,10 @@ public class BrandListFragment extends Fragment {
     public static BrandListFragment newInstance() {
         brandListVector = new Vector<>();
         BrandListFragment fragment = new BrandListFragment();
+        //TODO: remove after connecting to firebase
+        for(int i = 0 ; i< 20; i++){
+            brandListVector.add(new BrandModel("Brand name"+ i,null,"Brand "+ i+" Description"));
+        }
         return fragment;
     }
 
@@ -57,14 +61,33 @@ public class BrandListFragment extends Fragment {
 
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);
+        /**
+         * Setting on item click listener
+         */
+        //TODO: later on when firebase model is complete use adapter.notifyDataSetChanged() when new elements will update
+        // in firebase
+        this.brandList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /**
+                 *
+                 * calling mListener to notify HomeActivity to change view to ItemList fragment that belongs to
+                 * brandListVector.get(position)
+                 */
+                Log.d("TAG","clicked on position " + brandListVector.get(position).toString());
+                BrandModel brand = brandListVector.get(position);
+                mListener.onBrandSelected(brand.getName());
+
+            }
+        });
         return contentView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnBrandListListener) {
+            mListener = (OnBrandListListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -77,9 +100,8 @@ public class BrandListFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction();
+    public interface OnBrandListListener {
+        void onBrandSelected(String brandName);
     }
 
     /**
@@ -90,12 +112,12 @@ public class BrandListFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 5;
+            return brandListVector.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return brandListVector.get(position);
         }
 
         @Override
@@ -123,8 +145,9 @@ public class BrandListFragment extends Fragment {
             ImageView brandImage = (ImageView) convertView.findViewById(R.id.brand_item_picture);
             TextView brandDescription = (TextView) convertView.findViewById(R.id.brand_item_description);
 
-            brandName.setText("brand name "+ position);
-            brandDescription.setText("brand description "+ position);
+            BrandModel brand = brandListVector.get(position);
+            brandName.setText(brand.getName());
+            brandDescription.setText(brand.getDescription());
             return convertView;
         }
     }
