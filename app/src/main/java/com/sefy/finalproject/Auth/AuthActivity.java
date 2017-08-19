@@ -54,8 +54,8 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
     public void onClickRegisterButton() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         RegisterFragment registerFragment = RegisterFragment.newInstance();
-        fragmentTransaction.addToBackStack("GoToRegisterPage");
         fragmentTransaction.replace(R.id.auth_frag_container,registerFragment);
+        fragmentTransaction.addToBackStack("GoToRegisterPage");
         fragmentTransaction.commit();
     }
 
@@ -64,8 +64,8 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         if(this.register(firstName,lastName,email,password)){
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             LoginFragment loginFragment = LoginFragment.newInstance();
-            fragmentTransaction.addToBackStack("GoToLoginPage");
             fragmentTransaction.replace(R.id.auth_frag_container,loginFragment);
+            fragmentTransaction.addToBackStack("GoToLoginPage");
             fragmentTransaction.commit();
         }
         else{
@@ -75,7 +75,12 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
 /*--------------------------"Move to FireBase"----------------------------------*/
 
 
-
+    /**
+     *
+     * @param email
+     * @param password
+     * @return
+     */
     private Boolean authenticateUser(String email, String password){
        UserModel tempUser = this.getUserFromList(email);
         if(tempUser!=null){

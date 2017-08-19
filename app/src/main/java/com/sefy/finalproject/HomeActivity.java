@@ -15,9 +15,12 @@ public class HomeActivity extends Activity implements BrandListFragment.OnBrandL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Bundle userDetails = getIntent().getExtras() ;
+
+        Log.d("TAG","HomeActivity received bundle with " + userDetails.get("userFirstName").toString());
+
         BrandListFragment brandListFragment = BrandListFragment.newInstance();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.brand_frag_container,brandListFragment);
+        transaction.replace(R.id.brand_frag_container,brandListFragment);
         transaction.addToBackStack("");
         transaction.commit();
     }
@@ -31,8 +34,8 @@ public class HomeActivity extends Activity implements BrandListFragment.OnBrandL
 
         ItemListFragment itemListFragment = ItemListFragment.newInstance(brandName);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.addToBackStack("");
         transaction.replace(R.id.brand_frag_container,itemListFragment);
+        transaction.addToBackStack("");
         transaction.commit();
     }
 
