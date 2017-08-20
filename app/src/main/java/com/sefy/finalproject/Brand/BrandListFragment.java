@@ -57,6 +57,7 @@ public class BrandListFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View contentView =  inflater.inflate(R.layout.fragment_brand_list, container, false);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         this.brandList = (ListView) contentView.findViewById(R.id.brand_list_fragment_list);
         this.searchBar = (SearchView) contentView.findViewById(R.id.brand_list_fragment_search);
 

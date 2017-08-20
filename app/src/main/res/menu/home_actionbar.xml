@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home_actionbar_add_brand"
+        android:id="@+id/home_actionbar_add"
         android:title="Add new brand"
         android:showAsAction="ifRoom"
         android:icon="@drawable/add_button"
