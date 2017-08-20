@@ -5,6 +5,7 @@ package com.sefy.finalproject.Model;
  */
 
 public class UserModel {
+    private String userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -85,5 +86,13 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

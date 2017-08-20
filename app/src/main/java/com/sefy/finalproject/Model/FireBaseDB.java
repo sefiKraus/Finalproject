@@ -35,16 +35,6 @@ public class FireBaseDB {
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
-        // Create new post at /user-posts/$userid/$postid and at
-        //Update child
-//        String key = mDatabase.child("posts").push().getKey();
-//        Post post = new Post(userId, username, title, body);
-//        Map<String, Object> postValues = post.toMap();
-//
-//        Map<String, Object> childUpdates = new HashMap<>();
-//        childUpdates.put("/posts/" + key, postValues);
-//        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
-//
-//        mDatabase.updateChildren(childUpdates);
+
     }
 }

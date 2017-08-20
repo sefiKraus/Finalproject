@@ -1,81 +1,52 @@
 package com.sefy.finalproject.Model;
 
 import android.media.Image;
+import android.widget.ImageView;
 
 /**
  * Created by sefy1 on 04/08/2017.
  */
 
 public class ItemModel {
-    private int id;
+    private String id;
     private String name;
     private int price;
-    private Image image;
+    private ImageView image;
     private String description;
-    private int brandId;
+    private String brandId;
     private String brandName;
-
+    private String userEmail;
     public ItemModel() {
     }
 
-    public ItemModel(int id, String name, int price, Image image, String description, int brandId, String brandName) {
-        this.id = id;
+    public ItemModel(String name, int price, ImageView image, String description, String brandName,String userEmail) {
         this.name = name;
         this.price = price;
         this.image = image;
         this.description = description;
-        this.brandId = brandId;
         this.brandName = brandName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ItemModel itemModel = (ItemModel) o;
-
-        if (id != itemModel.id) return false;
-        if (price != itemModel.price) return false;
-        if (brandId != itemModel.brandId) return false;
-        if (name != null ? !name.equals(itemModel.name) : itemModel.name != null) return false;
-        if (image != null ? !image.equals(itemModel.image) : itemModel.image != null) return false;
-        if (description != null ? !description.equals(itemModel.description) : itemModel.description != null)
-            return false;
-        return brandName != null ? brandName.equals(itemModel.brandName) : itemModel.brandName == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + brandId;
-        result = 31 * result + (brandName != null ? brandName.hashCode() : 0);
-        return result;
+        this.userEmail = userEmail;
     }
 
     @Override
     public String toString() {
         return "ItemModel{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", image=" + image +
                 ", description='" + description + '\'' +
-                ", brandId=" + brandId +
+                ", brandId='" + brandId + '\'' +
                 ", brandName='" + brandName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
                 '}';
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -95,11 +66,11 @@ public class ItemModel {
         this.price = price;
     }
 
-    public Image getImage() {
+    public ImageView getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(ImageView image) {
         this.image = image;
     }
 
@@ -111,11 +82,11 @@ public class ItemModel {
         this.description = description;
     }
 
-    public int getBrandId() {
+    public String getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(String brandId) {
         this.brandId = brandId;
     }
 
@@ -125,5 +96,13 @@ public class ItemModel {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

@@ -8,17 +8,16 @@ import java.util.Vector;
  */
 
 public class PurchaseModel {
-    private int id;
+    private String id;
     private int totalPrice;
     private Date date;
-    private int userId;
+    private String userId;
     private Vector<CartItem> cartList;
 
     public PurchaseModel() {
     }
 
-    public PurchaseModel(int id, int totalPrice, Date date, int userId, Vector<CartItem> cartList) {
-        this.id = id;
+    public PurchaseModel(int totalPrice, Date date, String userId, Vector<CartItem> cartList) {
         this.totalPrice = totalPrice;
         this.date = date;
         this.userId = userId;
@@ -32,20 +31,20 @@ public class PurchaseModel {
 
         PurchaseModel that = (PurchaseModel) o;
 
-        if (id != that.id) return false;
         if (totalPrice != that.totalPrice) return false;
-        if (userId != that.userId) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         return cartList != null ? cartList.equals(that.cartList) : that.cartList == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + totalPrice;
         result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + userId;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (cartList != null ? cartList.hashCode() : 0);
         return result;
     }
@@ -53,19 +52,19 @@ public class PurchaseModel {
     @Override
     public String toString() {
         return "PurchaseModel{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", date=" + date +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", cartList=" + cartList +
                 '}';
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -85,11 +84,11 @@ public class PurchaseModel {
         this.date = date;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

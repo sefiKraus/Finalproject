@@ -1,7 +1,7 @@
 package com.sefy.finalproject.Brand;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -20,7 +20,7 @@ import com.sefy.finalproject.R;
 
 import java.util.Vector;
 
-public class BrandListFragment extends Fragment {
+public class BrandListFragment extends Fragment{
     BrandListAdapter adapter;
     private ListView brandList;
     private SearchView searchBar;
@@ -55,12 +55,32 @@ public class BrandListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View contentView =  inflater.inflate(R.layout.fragment_brand_list, container, false);
         this.brandList = (ListView) contentView.findViewById(R.id.brand_list_fragment_list);
         this.searchBar = (SearchView) contentView.findViewById(R.id.brand_list_fragment_search);
 
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);
+
+        /**
+         * setting search listener
+         */
+        this.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("TAG","Brand list fragment search bar onQueryTextSubmit: "+query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("TAG","Brand list fragment search bar onQueryTextChange: " + newText);
+                return false;
+            }
+        });
+
+
         /**
          * Setting on item click listener
          */
@@ -80,6 +100,8 @@ public class BrandListFragment extends Fragment {
 
             }
         });
+
+
         return contentView;
     }
 
@@ -90,7 +112,7 @@ public class BrandListFragment extends Fragment {
             mListener = (OnBrandListListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnBrandListListener");
         }
     }
 

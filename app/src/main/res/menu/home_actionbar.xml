@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_actionbar_add_brand"
+        android:title="Add new brand"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/add_button"
+        ></item>
+    <item
+        android:id="@+id/home_actionbar_cart"
+        android:title="Go to cart"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/cart_icon"
+        ></item>
+    <item
+        android:id="@+id/home_actionbar_user_details"
+        android:title="My profile"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/user_details_icon"
+        ></item>
+</menu>

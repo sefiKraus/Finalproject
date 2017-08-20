@@ -8,10 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
 
+import java.util.Vector;
+
 public class ItemListFragment extends Fragment {
+
+    private ListView itemList;
+    private static Vector<ItemModel> itemListVector;
 
     private static final String BRAND_NAME = "brandName";
     private static final String ARG_PARAM2 = "param2";
@@ -47,7 +54,8 @@ public class ItemListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_item_list, container, false);
+        View contentView = inflater.inflate(R.layout.fragment_item_list, container, false);
+        return contentView;
     }
 
 
@@ -58,7 +66,7 @@ public class ItemListFragment extends Fragment {
             mListener = (OnItemListListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnItemListListener");
         }
     }
 

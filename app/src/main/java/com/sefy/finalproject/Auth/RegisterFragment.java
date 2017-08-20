@@ -67,7 +67,7 @@ public class RegisterFragment extends Fragment {
             mListener = (OnRegisterListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnRegisterListener");
         }
     }
 
@@ -78,7 +78,6 @@ public class RegisterFragment extends Fragment {
     }
 
     public interface OnRegisterListener {
-        // TODO: Update argument type and name
         void onSubmitRegister(String firstName, String lastName, String email, String password);
     }
 }
