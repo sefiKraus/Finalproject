@@ -16,6 +16,9 @@ import java.util.Iterator;
 
 public class UserManager extends CommonManager<UserModel> {
 
+    String dbref="users";
+
+
 
 
     boolean addUserDB(UserModel obj){
@@ -23,7 +26,7 @@ public class UserManager extends CommonManager<UserModel> {
 
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("users");
+            DatabaseReference myRef = database.getReference( dbref);
             myRef.child(obj.getId()).setValue(obj);
             return true;
         } catch (Exception e) {
@@ -37,7 +40,7 @@ public class UserManager extends CommonManager<UserModel> {
 
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("users");
+            DatabaseReference myRef = database.getReference( dbref);
             myRef.child(id).removeValue();
 
             return true;
@@ -58,7 +61,7 @@ public class UserManager extends CommonManager<UserModel> {
 
     public void getUserDB(String stId, final GetUserCallback callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users");
+        DatabaseReference myRef = database.getReference( dbref);
         myRef.child(stId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

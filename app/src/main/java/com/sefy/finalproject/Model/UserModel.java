@@ -4,21 +4,13 @@ package com.sefy.finalproject.Model;
  * Created by sefy1 on 04/08/2017.
  */
 
-public class UserModel {
+public class UserModel extends BaseModel {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    private String id;
 
     public UserModel() {
     }
