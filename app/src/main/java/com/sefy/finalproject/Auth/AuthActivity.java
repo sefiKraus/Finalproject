@@ -72,6 +72,15 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
             Log.d("TAG","Email already exists");
         }
     }
+
+    @Override
+    public void onLoginButtonClicked() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        LoginFragment loginFragment = LoginFragment.newInstance();
+        fragmentTransaction.replace(R.id.auth_frag_container,loginFragment);
+        fragmentTransaction.addToBackStack("GoToLoginPage");
+        fragmentTransaction.commit();
+    }
 /*--------------------------"Move to FireBase"----------------------------------*/
 
 

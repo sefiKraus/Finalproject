@@ -1,5 +1,7 @@
 package com.sefy.finalproject.Model;
 
+import android.widget.ImageView;
+
 /**
  * Created by sefy1 on 04/08/2017.
  */
@@ -10,7 +12,7 @@ public class UserModel {
     private String lastName;
     private String email;
     private String password;
-
+    private ImageView image;
     public UserModel() {
     }
 
@@ -94,5 +96,13 @@ public class UserModel {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
     }
 }

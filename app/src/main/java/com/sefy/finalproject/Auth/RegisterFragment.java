@@ -15,7 +15,7 @@ import com.sefy.finalproject.R;
 public class RegisterFragment extends Fragment {
     //TODO: set email pattern validator and password pattern
     EditText email,password,firstName,lastName;
-    Button register, clear;
+    Button register, login;
     private OnRegisterListener mListener;
 
     public RegisterFragment() {
@@ -43,7 +43,7 @@ public class RegisterFragment extends Fragment {
         this.firstName = (EditText) contentView.findViewById(R.id.register_fragment_firstName);
         this.lastName = (EditText) contentView.findViewById(R.id.register_fragment_lastName);
         this.register = (Button) contentView.findViewById(R.id.register_fragment_submit);
-        this.clear = (Button) contentView.findViewById(R.id.register_fragment_clear);
+        this.login = (Button) contentView.findViewById(R.id.register_fragment_login);
 
 
         this.register.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +55,13 @@ public class RegisterFragment extends Fragment {
                 String userLastName = lastName.getText().toString();
                 mListener.onSubmitRegister(userFirstName,userLastName,userEmail,userPassword);
 
+            }
+        });
+
+        this.login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onLoginButtonClicked();
             }
         });
         return contentView;
@@ -79,5 +86,6 @@ public class RegisterFragment extends Fragment {
 
     public interface OnRegisterListener {
         void onSubmitRegister(String firstName, String lastName, String email, String password);
+        void onLoginButtonClicked();
     }
 }

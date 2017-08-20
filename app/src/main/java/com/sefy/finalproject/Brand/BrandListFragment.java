@@ -171,6 +171,8 @@ public class BrandListFragment extends Fragment{
             BrandModel brand = brandListVector.get(position);
             brandName.setText(brand.getName());
             brandDescription.setText(brand.getDescription());
+
+            //TODO: set brand picture when connected to db
             return convertView;
         }
     }
