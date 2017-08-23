@@ -12,12 +12,14 @@ import android.widget.ImageView;
 
 import com.sefy.finalproject.Brand.BrandAddFragment;
 import com.sefy.finalproject.Brand.BrandListFragment;
+import com.sefy.finalproject.Item.ItemAddFragment;
 import com.sefy.finalproject.Item.ItemListFragment;
 import com.sefy.finalproject.User.UserActivity;
 
 public class HomeActivity extends Activity implements
         BrandListFragment.OnBrandListListener ,
         ItemListFragment.OnItemListListener ,
+        ItemAddFragment.OnItemLAddListener,
         BrandAddFragment.OnBrandAddListener{
     private Bundle userDetails;
     @Override
@@ -94,26 +96,44 @@ public class HomeActivity extends Activity implements
         switch (itemId){
             case android.R.id.home:{
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                if(this.currentFragment instanceof BrandAddFragment || this.currentFragment instanceof ItemListFragment){
+                if(this.currentFragment  instanceof BrandAddFragment || this.currentFragment instanceof ItemListFragment){
                     toDisplay = BrandListFragment.newInstance();
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
                     transaction.commit();
 
+                }else if(this.currentFragment instanceof ItemAddFragment){
+                    toDisplay = ItemListFragment.newInstance(((ItemAddFragment) this.currentFragment).getBrandName());
+                    transaction.replace(R.id.brand_frag_container, toDisplay);
+                    transaction.addToBackStack("");
+                    transaction.commit();
+                    getActionBar().setDisplayHomeAsUpEnabled(true)  ;
                 }
             }
             break;
             case R.id.home_actionbar_add:{
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 if(this.currentFragment instanceof BrandListFragment){
-                    toDisplay = BrandAddFragment.newInstance();
+                    toDisplay = BrandAddFragment.newInstance(this.userDetails.get("userEmail").toString());
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
                     transaction.commit();
                     getActionBar().setDisplayHomeAsUpEnabled(true);
                 }else if(this.currentFragment instanceof ItemListFragment){
-                    Log.d("TAG","Change to Add item fragment");
+                    String itemListBrand = ((ItemListFragment) this.currentFragment).getBrandName();
+                    toDisplay = ItemAddFragment.newInstance(itemListBrand,this.userDetails.get("userEmail").toString());
+                    transaction.replace(R.id.brand_frag_container, toDisplay);
+                    transaction.addToBackStack("");
+                    transaction.commit();
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
                 }
+//                else if(this.currentFragment instanceof ItemAddFragment){
+//                    toDisplay = ItemListFragment.newInstance(((ItemAddFragment) this.currentFragment).getBrandName());
+//                    transaction.replace(R.id.brand_frag_container, toDisplay);
+//                    transaction.addToBackStack("");
+//                    transaction.commit();
+//                    getActionBar().setDisplayHomeAsUpEnabled(true)  ;
+//                }
             }
             break;
             case R.id.home_actionbar_cart:{
@@ -135,4 +155,8 @@ public class HomeActivity extends Activity implements
 
     }
 
+    @Override
+    public void onAddItem(String itemName, String description, String brandName) {
+
+    }
 }

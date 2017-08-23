@@ -54,7 +54,6 @@ public class ItemListFragment extends Fragment {
         for(int i = 0 ; i< 20; i++){
             itemListVector.add(new ItemModel("item "+i,i* 15,null,"Item description "+i,brandName.toString(),null));
         }
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,6 +100,9 @@ public class ItemListFragment extends Fragment {
         mListener = null;
     }
 
+    public String getBrandName(){
+        return  this.brandName;
+    }
     public interface OnItemListListener {
         void onItemSelected(String itemName);
     }
@@ -125,16 +127,34 @@ public class ItemListFragment extends Fragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+
             if(convertView == null){
                 /**
                  * getting fragment inflater
                  */
                 convertView = inflater.inflate(R.layout.item_list_row,null);
+                final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
+                addToCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ItemModel item = itemListVector.get((int)v.getTag());
+                        item.setClicked(!item.isClicked());
+                        if(item.isClicked()){
+                            addToCart.setBackgroundResource(R.drawable.remove_from_cart);
+
+                        }
+                        else{
+                            addToCart.setBackgroundResource(R.drawable.add_to_cart);
+                        }
+
+                    }
+                });
             }
             TextView itemName = (TextView) convertView.findViewById(R.id.item_list_row_name);
             TextView itemDescription = (TextView) convertView.findViewById(R.id.item_list_row_description);
             TextView itemPrice = (TextView) convertView.findViewById(R.id.item_list_row_price);
             final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
+            //TODO: set picture when connected to db
             final ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_list_row_image);
 
             ItemModel item = itemListVector.get(position);
@@ -142,14 +162,15 @@ public class ItemListFragment extends Fragment {
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
             itemPrice.setText(String.valueOf(item.getPrice()));
+            if(item.isClicked()){
+                addToCart.setBackgroundResource(R.drawable.remove_from_cart);
 
-            addToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-                }
-            });
-            //TODO: set picture when connected to db
+            }
+            else{
+                addToCart.setBackgroundResource(R.drawable.add_to_cart);
+            }
+            addToCart.setTag(position);
+
             return convertView;
         }
     }

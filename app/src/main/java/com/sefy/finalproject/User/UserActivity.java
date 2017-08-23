@@ -99,8 +99,13 @@ public class UserActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 Log.d("TAG",s.toString());
-                if(!user.getFirstName().equals(s.toString())|| passChanged || lastNameChanged){
+                if(!s.toString().matches(user.getFirstName())|| passChanged || lastNameChanged){
                     firstNameChanged = true;
                     saveChanges.setVisibility(View.VISIBLE);
                 }
@@ -108,11 +113,6 @@ public class UserActivity extends Activity {
                     firstNameChanged = false;
                     saveChanges.setVisibility(View.INVISIBLE);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -124,7 +124,12 @@ public class UserActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!user.getLastName().equals(s.toString())|| passChanged || firstNameChanged){
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!s.toString().matches(user.getLastName())|| passChanged || firstNameChanged){
                     lastNameChanged = true;
                     saveChanges.setVisibility(View.VISIBLE);
                 }
@@ -132,11 +137,6 @@ public class UserActivity extends Activity {
                     lastNameChanged = false;
                     saveChanges.setVisibility(View.INVISIBLE);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -148,7 +148,12 @@ public class UserActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!user.getPassword().equals(s.toString())|| firstNameChanged || lastNameChanged){
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!s.toString().matches(user.getPassword())|| firstNameChanged || lastNameChanged){
                     passChanged = true;
                     saveChanges.setVisibility(View.VISIBLE);
                 }
@@ -156,11 +161,6 @@ public class UserActivity extends Activity {
                     passChanged = false;
                     saveChanges.setVisibility(View.INVISIBLE);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
     }

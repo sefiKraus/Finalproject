@@ -1,6 +1,5 @@
 package com.sefy.finalproject.Model;
 
-import android.media.Image;
 import android.widget.ImageView;
 
 /**

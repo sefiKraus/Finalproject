@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,20 @@ import com.sefy.finalproject.R;
 
 public class BrandAddFragment extends Fragment {
 
-
+    private static final String USER_EMAIL = "userEmail";
     private OnBrandAddListener mListener;
+    private String userEmail;
 
     public BrandAddFragment() {
         // Required empty public constructor
     }
 
-    public static BrandAddFragment newInstance() {
+    public static BrandAddFragment newInstance(String userEmail) {
         BrandAddFragment fragment = new BrandAddFragment();
-
+        Log.d("TAG","BrandAddFragment received "+userEmail);
+        Bundle args = new Bundle();
+        args.putString(USER_EMAIL, userEmail);
+        fragment.setArguments(args);
         return fragment;
     }
 

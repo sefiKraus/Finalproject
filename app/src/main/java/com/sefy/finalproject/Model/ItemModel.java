@@ -16,6 +16,7 @@ public class ItemModel {
     private String brandId;
     private String brandName;
     private String userEmail;
+    private boolean isClicked;
     public ItemModel() {
     }
 
@@ -26,6 +27,7 @@ public class ItemModel {
         this.description = description;
         this.brandName = brandName;
         this.userEmail = userEmail;
+        this.isClicked = false;
     }
 
     @Override
@@ -48,6 +50,14 @@ public class ItemModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isClicked() {
+        return isClicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        isClicked = clicked;
     }
 
     public String getName() {
