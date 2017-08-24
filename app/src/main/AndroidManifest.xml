@@ -18,7 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".User.UserActivity"></activity>
+        <activity android:name=".User.UserActivity" />
+        <activity android:name=".Cart.CartActivity"></activity>
     </application>
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 </manifest>

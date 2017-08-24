@@ -1,10 +1,13 @@
 package com.sefy.finalproject.Item;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ItemAddFragment extends Fragment {
     private static final String BRAND_NAME = "brandName";
     private static final String USER_EMAIL = "userEmail";
@@ -25,7 +30,7 @@ public class ItemAddFragment extends Fragment {
     private String brandName;
     private String userEmail;
     private EditText itemName, itemDescription , itemPrice;
-    ImageButton image;
+    ImageView image;
     Button saveButton;
 
     private OnItemLAddListener mListener;
@@ -39,7 +44,6 @@ public class ItemAddFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(BRAND_NAME, brandName);
         args.putString(USER_EMAIL, userEmail);
-        Log.d("TAG","ItemAddFragment received "+brandName+" "+userEmail);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,7 +65,16 @@ public class ItemAddFragment extends Fragment {
         this.itemPrice = (EditText) contentView.findViewById(R.id.item_add_fragment_itemPrice);
         this.itemDescription = (EditText) contentView.findViewById(R.id.item_add_fragment_itemDescription);
         this.itemName = (EditText) contentView.findViewById(R.id.item_add_fragment_itemName);
-        this.image = (ImageButton) contentView.findViewById(R.id.item_add_fragment_image);
+        this.image = (ImageView) contentView.findViewById(R.id.item_add_fragment_image);
+
+
+
+        this.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
         this.saveButton = (Button) contentView.findViewById(R.id.item_add_fragment_saveItem);
         this.messageHandler = (TextView) contentView.findViewById(R.id.item_add_fragment_messageHandler);
         this.saveButton.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +127,31 @@ public class ItemAddFragment extends Fragment {
         mListener = null;
     }
 
+        /*-----------Handling taking picture------------------------*/
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            image.setImageBitmap(imageBitmap);
+        }
+    }
+
     public String getBrandName(){
         return this.brandName;
     }
     public interface OnItemLAddListener {
-        void onAddItem(String itemName, String description , String brandName);
+        //TODO: handle image
+        void onAddItem(ItemModel item);
     }
 }

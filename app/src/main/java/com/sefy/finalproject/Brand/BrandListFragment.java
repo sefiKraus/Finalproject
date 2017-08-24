@@ -25,10 +25,10 @@ public class BrandListFragment extends Fragment{
     private ListView brandList;
     private SearchView searchBar;
     private static Vector<BrandModel> brandListVector;
-    private static final String ARG_PARAM1 = "param1";
+    private static final String USER_EMAIL = "userEmail";
     private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
+    private String userEmail;
     private String mParam2;
 
     private OnBrandListListener mListener;
@@ -37,19 +37,25 @@ public class BrandListFragment extends Fragment{
         // Required empty public constructor
     }
 
-    public static BrandListFragment newInstance() {
+    public static BrandListFragment newInstance(String userEmail) {
+        Bundle args = new Bundle();
+        args.putString(USER_EMAIL, userEmail);
         brandListVector = new Vector<>();
         BrandListFragment fragment = new BrandListFragment();
         //TODO: remove after connecting to firebase
         for(int i = 0 ; i< 20; i++){
-            brandListVector.add(new BrandModel("Brand name"+ i,null,"Brand "+ i+" Description"));
+            brandListVector.add(new BrandModel("Brand name"+ i,null,"Brand "+ i+" Description", null));
         }
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            userEmail = getArguments().getString(USER_EMAIL);
+      }
     }
 
     @Override
@@ -97,7 +103,7 @@ public class BrandListFragment extends Fragment{
                  */
                 Log.d("TAG","clicked on position " + brandListVector.get(position).toString());
                 BrandModel brand = brandListVector.get(position);
-                mListener.onBrandSelected(brand.getName());
+                mListener.onBrandSelected(brand.getName() , userEmail);
 
             }
         });
@@ -124,7 +130,7 @@ public class BrandListFragment extends Fragment{
     }
 
     public interface OnBrandListListener {
-        void onBrandSelected(String brandName);
+        void onBrandSelected(String brandName , String userEmail);
     }
 
     /**

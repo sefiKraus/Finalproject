@@ -3,7 +3,9 @@ package com.sefy.finalproject.User;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sefy.finalproject.HomeActivity;
@@ -24,6 +27,7 @@ public class UserActivity extends Activity {
     private EditText firstName, lastName, password;
     private TextView email;
     private Button saveChanges;
+    private ImageView image;
     private boolean firstNameChanged, passChanged, lastNameChanged;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +59,38 @@ public class UserActivity extends Activity {
                 Log.d("TAG","UserActivity Save change in database!!!!");
             }
         });
+        this.image = (ImageView) findViewById(R.id.user_details_image);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    dispatchTakePictureIntent();
+            }
+        });
         this.setEditTextChangeListeners();
     }
 
+
+    /*-----------Handling taking picture------------------------*/
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            image.setImageBitmap(imageBitmap);
+        }
+    }
+
+    /*-----------------------------------------------*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);

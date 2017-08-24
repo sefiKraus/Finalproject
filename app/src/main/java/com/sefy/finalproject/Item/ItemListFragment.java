@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -27,14 +28,14 @@ public class ItemListFragment extends Fragment {
     private ImageView brandImage;
     private SearchView searchBar;
     private TextView brandNameText, brandDescriptionText;
-
     private static Vector<ItemModel> itemListVector;
 
     private static final String BRAND_NAME = "brandName";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String USER_EMAIL = "userEmail";
 
     private String brandName;
-    private String mParam2;
+    private static String userEmail;
+
     private ItemListAdapter adapter;
     private OnItemListListener mListener;
 
@@ -42,17 +43,18 @@ public class ItemListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ItemListFragment newInstance(String brandName) {
+    public static ItemListFragment newInstance(String brandName,String userEmail) {
         ItemListFragment fragment = new ItemListFragment();
         Bundle args = new Bundle();
         args.putString(BRAND_NAME, brandName);
-        Log.d("TAG","Item list of brand: "+ brandName);
-//        args.putString(ARG_PARAM2, param2);
+        args.putString(USER_EMAIL, userEmail);
+
+
         itemListVector = new Vector<>();
-    //String name, int price, ImageView image, String description, String brandName,String userEmail
         //TODO: remove after connecting to firebase
-        for(int i = 0 ; i< 20; i++){
-            itemListVector.add(new ItemModel("item "+i,i* 15,null,"Item description "+i,brandName.toString(),null));
+        itemListVector.add(new ItemModel("item "+0,0,null,"Item description "+0,brandName.toString(),userEmail));
+        for(int i = 1 ; i< 20; i++){
+            itemListVector.add(new ItemModel("item "+i,i* 15,null,"Item description "+i,brandName.toString(),"email@gmail.com"));
         }
         fragment.setArguments(args);
         return fragment;
@@ -63,7 +65,7 @@ public class ItemListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             brandName = getArguments().getString(BRAND_NAME);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
+            userEmail = getArguments().getString(USER_EMAIL);
         }
     }
 
@@ -79,6 +81,19 @@ public class ItemListFragment extends Fragment {
 
         this.adapter = new ItemListAdapter();
         this.itemList.setAdapter(this.adapter);
+
+        this.itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ItemModel itemModel = itemListVector.get(position);
+                if(itemModel.getUserEmail().equals(userEmail)){
+                    mListener.onItemEditRequest(itemModel.getName(),itemModel.getDescription(),itemModel.getPrice(),brandName,userEmail);
+                }
+                else{
+                    mListener.onItemSelected(itemModel.getName());
+                }
+            }
+        });
         return contentView;
     }
 
@@ -103,10 +118,15 @@ public class ItemListFragment extends Fragment {
     public String getBrandName(){
         return  this.brandName;
     }
+
+
     public interface OnItemListListener {
         void onItemSelected(String itemName);
+        void onItemEditRequest(String itemName, String itemDescription,int price, String brandName, String userEmail);
     }
 
+
+    /*-----------------------------------------------------------------------------*/
     class ItemListAdapter extends BaseAdapter{
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -133,23 +153,27 @@ public class ItemListFragment extends Fragment {
                  * getting fragment inflater
                  */
                 convertView = inflater.inflate(R.layout.item_list_row,null);
-                final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
-                addToCart.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ItemModel item = itemListVector.get((int)v.getTag());
-                        item.setClicked(!item.isClicked());
-                        if(item.isClicked()){
-                            addToCart.setBackgroundResource(R.drawable.remove_from_cart);
+                if(!itemListVector.get(position).getUserEmail().equals(userEmail)){
+                    final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
+                    addToCart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ItemModel item = itemListVector.get((int)v.getTag());
+                            item.setClicked(!item.isClicked());
+                            if(item.isClicked()){
+                                addToCart.setBackgroundResource(R.drawable.remove_from_cart);
+
+                            }
+                            else{
+                                addToCart.setBackgroundResource(R.drawable.add_to_cart);
+                            }
 
                         }
-                        else{
-                            addToCart.setBackgroundResource(R.drawable.add_to_cart);
-                        }
+                    });
+                }
 
-                    }
-                });
             }
+
             TextView itemName = (TextView) convertView.findViewById(R.id.item_list_row_name);
             TextView itemDescription = (TextView) convertView.findViewById(R.id.item_list_row_description);
             TextView itemPrice = (TextView) convertView.findViewById(R.id.item_list_row_price);
@@ -161,7 +185,13 @@ public class ItemListFragment extends Fragment {
 
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
-            itemPrice.setText(String.valueOf(item.getPrice()));
+            itemPrice.setText(String.valueOf(item.getPrice())+" $");
+
+            /**
+             * add to cart button should display only if the item's user email is not
+             * current email
+             */
+            if(!item.getUserEmail().equals(userEmail)){
             if(item.isClicked()){
                 addToCart.setBackgroundResource(R.drawable.remove_from_cart);
 
@@ -171,6 +201,10 @@ public class ItemListFragment extends Fragment {
             }
             addToCart.setTag(position);
 
+            }
+            else{
+                addToCart.setVisibility(View.INVISIBLE);
+            }
             return convertView;
         }
     }

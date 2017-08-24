@@ -10,14 +10,15 @@ public class BrandModel {
     private String name;
     private ImageView image;
     private String description;
-
+    private String userEmail;
     public BrandModel() {
     }
 
-    public BrandModel(String name, ImageView image, String description) {
+    public BrandModel(String name, ImageView image, String description,String userEmail) {
         this.name = name;
         this.image = image;
         this.description = description;
+        this.userEmail = userEmail;
     }
 
     @Override
@@ -47,7 +48,16 @@ public class BrandModel {
                 "name='" + name + '\'' +
                 ", image=" + image +
                 ", description='" + description + '\'' +
+                ", userEmail='" + userEmail + '\'' +
                 '}';
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getName() {
