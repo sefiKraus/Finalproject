@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.HomeActivity;
+import com.sefy.finalproject.Model.UserManager;
 import com.sefy.finalproject.Model.UserModel;
 import com.sefy.finalproject.R;
 
@@ -20,13 +21,15 @@ import java.util.regex.Pattern;
 
 public class AuthActivity extends Activity implements RegisterFragment.OnRegisterListener, LoginFragment.OnLoginListener {
 
-    private Vector<UserModel> usersList;
+    private UserManager userManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-        this.usersList = new Vector<>();
-        this.usersList.add(new UserModel("sefi","krausz","sefi@gmail.com","123456789"));
+        userManager = new UserManager();
+
+
+
         LoginFragment loginFragment = LoginFragment.newInstance();
         /**
          * setting transaction in order to display register fragment
@@ -40,21 +43,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
 
     @Override
     public void onSubmitLogin(String userEmail, String userPassword) {
-        if(this.login(userEmail,userPassword)){
-            Intent homeActivity =  new Intent(getApplicationContext(), HomeActivity.class);
-            Bundle bundle = new Bundle();
-            UserModel user = this.getUserFromList(userEmail);
-            bundle.putString("userFirstName", user.getFirstName());
-            bundle.putString("userLastName", user.getLastName());
-            bundle.putString("userEmail", user.getEmail());
-            bundle.putString("userPassword", user.getPassword());
-            homeActivity.putExtras(bundle);
-            startActivity(homeActivity);
-        }
-        else{
-            Log.d("Tag","Error occurred during login");
-
-        }
+        this.login(userEmail,userPassword);
     }
 
     @Override
@@ -68,16 +57,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
 
     @Override
     public void onSubmitRegister(String firstName, String lastName, String email, String password) {
-        if(this.register(firstName,lastName,email,password)){
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            LoginFragment loginFragment = LoginFragment.newInstance();
-            fragmentTransaction.replace(R.id.auth_frag_container,loginFragment);
-            fragmentTransaction.addToBackStack("GoToLoginPage");
-            fragmentTransaction.commit();
-        }
-        else{
-            Log.d("TAG","Email already exists");
-        }
+        this.register(firstName,lastName,email,password);
     }
 
     @Override
@@ -92,53 +72,6 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
 
 
     /**
-     *
-     * @param email
-     * @param password
-     * @return
-     */
-    private Boolean authenticateUser(String email, String password){
-       UserModel tempUser = this.getUserFromList(email);
-        if(tempUser!=null){
-            if(tempUser.getPassword().equals(password)){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if email already exists in database
-     * @param email
-     * @return
-     */
-    private Boolean isUserExists(String email){
-        for(int i = 0; i < this.usersList.size(); i++){
-            if(this.usersList.get(i).getEmail().equals(email)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get user from list
-     * @param email
-     * @return
-     */
-    private UserModel getUserFromList(String email){
-        for(int i = 0; i < this.usersList.size(); i++){
-            if(this.usersList.get(i).getEmail().equals(email)){
-                return this.usersList.get(i);
-            }
-        }
-        return null;
-    }
-
-    /**
      * Register method
      * @param firstName
      * @param lastName
@@ -146,20 +79,47 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
      * @param password
      * @return
      */
-    private Boolean register(String firstName, String lastName , String email, String password){
+    private void register(final String firstName, final String lastName , final String email, final String password){
         if(!this.validEmail(email)){
             Toast.makeText(this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else if(this.isUserExists(email)){
-            Toast.makeText(this,"Email already in use",Toast.LENGTH_LONG).show();
-            return false;
         }
         else{
-            UserModel user = new UserModel(firstName,lastName,email,password);
-            this.usersList.add(user);
-            return true;
+            this.userManager.getUserDB(email, new UserManager.GetUserCallback() {
+                @Override
+                public void onComplete(UserModel user) {
+                    if(user == null){
+                        UserModel newUser = new UserModel(firstName,lastName,email,password);
+                        if(userManager.addUserDB(newUser)) {
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                            LoginFragment loginFragment = LoginFragment.newInstance();
+                            fragmentTransaction.replace(R.id.auth_frag_container, loginFragment);
+                            fragmentTransaction.addToBackStack("GoToLoginPage");
+                            fragmentTransaction.commit();
+                        }
+                    }
+                    else{
+                        Toast.makeText(AuthActivity.this,"Email already in use !!!",Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
         }
+
+//        else if(this.isUserExists(email)){
+//
+//            Toast.makeText(this,"Email already in use",Toast.LENGTH_LONG).show();
+//            return false;
+//        }
+//        else{
+//            UserModel user = new UserModel(firstName,lastName,email,password);
+//            this.usersList.add(user);
+//            return true;
+//        }
     }
 
     /**
@@ -168,19 +128,41 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
      * @param password
      * @return
      */
-    private Boolean login(String email, String password){
+    private void login(String email, final String password){
         if(validEmail(email))
         {
 
-            if(this.authenticateUser(email, password)){
-                return true;
-            }
+            this.userManager.getUserDB(email, new UserManager.GetUserCallback() {
+                @Override
+                public void onComplete(UserModel user) {
+                    if(user == null){
+                        Toast.makeText(AuthActivity.this,"Error occurred please verify email and password",Toast.LENGTH_LONG).show();
+                    }else{
+                        if(!user.getPassword().equals(password)){
+                            Toast.makeText(AuthActivity.this,"Error occurred please verify email and password",Toast.LENGTH_LONG).show();
+                        }else{
+                             Intent homeActivity =  new Intent(getApplicationContext(), HomeActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userFirstName", user.getFirstName());
+                            bundle.putString("userLastName", user.getLastName());
+                            bundle.putString("userEmail", user.getEmail());
+                            bundle.putString("userPassword", user.getPassword());
+                            homeActivity.putExtras(bundle);
+                            startActivity(homeActivity);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
         }
         else{
             Toast.makeText(this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
 
         }
-        return false;
     }
 
     private boolean validEmail(String email) {
