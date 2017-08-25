@@ -7,7 +7,6 @@ import android.widget.ImageView;
  */
 
 public class UserModel {
-    private String userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -90,13 +89,6 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public ImageView getImage() {
         return image;

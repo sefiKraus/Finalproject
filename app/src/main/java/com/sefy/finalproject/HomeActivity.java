@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.sefy.finalproject.Brand.BrandAddFragment;
 import com.sefy.finalproject.Brand.BrandListFragment;
+import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.Item.ItemAddFragment;
 import com.sefy.finalproject.Item.ItemEditFragment;
 import com.sefy.finalproject.Item.ItemListFragment;
@@ -36,6 +37,8 @@ public class HomeActivity extends Activity implements
         transaction.replace(R.id.brand_frag_container,brandListFragment);
         transaction.addToBackStack("");
         transaction.commit();
+
+        startService(new Intent(this, CartListService.class));
     }
 
 

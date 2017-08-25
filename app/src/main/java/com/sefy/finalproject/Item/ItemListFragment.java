@@ -1,6 +1,8 @@
 package com.sefy.finalproject.Item;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -16,9 +18,14 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.sefy.finalproject.Cart.CartListService;
+import com.sefy.finalproject.EventBus.CartEvent;
 import com.sefy.finalproject.Model.BrandModel;
+import com.sefy.finalproject.Model.CartItem;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Vector;
 
@@ -128,6 +135,7 @@ public class ItemListFragment extends Fragment {
 
     /*-----------------------------------------------------------------------------*/
     class ItemListAdapter extends BaseAdapter{
+        CartEvent event = new CartEvent();
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         @Override
@@ -145,6 +153,7 @@ public class ItemListFragment extends Fragment {
             return 0;
         }
 
+        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -156,13 +165,15 @@ public class ItemListFragment extends Fragment {
                 if(!itemListVector.get(position).getUserEmail().equals(userEmail)){
                     final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
                     addToCart.setOnClickListener(new View.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.M)
                         @Override
                         public void onClick(View v) {
                             ItemModel item = itemListVector.get((int)v.getTag());
                             item.setClicked(!item.isClicked());
+
                             if(item.isClicked()){
                                 addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-
+//
                             }
                             else{
                                 addToCart.setBackgroundResource(R.drawable.add_to_cart);
@@ -194,7 +205,6 @@ public class ItemListFragment extends Fragment {
             if(!item.getUserEmail().equals(userEmail)){
             if(item.isClicked()){
                 addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-
             }
             else{
                 addToCart.setBackgroundResource(R.drawable.add_to_cart);

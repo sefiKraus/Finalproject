@@ -1,5 +1,9 @@
 package com.sefy.finalproject.Model;
 
+/**
+ * Created by sefy1 on 25/08/2017.
+ */
+
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -9,23 +13,39 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Lior on 8/19/2017.
  */
 
-public class UserManager<T> extends CommonManager<UserModel> {
+public class UserManager extends CommonManager<UserModel> {
 
     String dbref="users";
 
+    public UserManager() {
+        // getAllUsersAndObserve();
+    }
 
 
+    public String emailToKey(String email) {
+        return email.replace(".","%252E");
+    }
 
-    private boolean addUserDB(UserModel obj){
+
+    public boolean addUserDB(UserModel obj){
+
+
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference( dbref);
-            myRef.child(obj.getUserId()).setValue(obj);
+            myRef.child(emailToKey(obj.getEmail())).setValue(obj);
+
+
+
+
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,12 +54,12 @@ public class UserManager<T> extends CommonManager<UserModel> {
     }
 
 
-    private boolean deleteUserDB(String id){
+    public boolean deleteUserDB(String email){
 
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference( dbref);
-            myRef.child(id).removeValue();
+            myRef.child(emailToKey(email)).removeValue();
 
             return true;
         } catch (Exception e) {
@@ -49,7 +69,7 @@ public class UserManager<T> extends CommonManager<UserModel> {
     }
 
 
-    interface GetUserCallback {
+    public interface GetUserCallback {
         void onComplete(UserModel user);
         void onCancel();
     }
@@ -57,10 +77,12 @@ public class UserManager<T> extends CommonManager<UserModel> {
 
 
 
-    public void getUserDB(String stId, final GetUserCallback callback) {
+    public void getUserDB(String email, final GetUserCallback callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference( dbref);
-        myRef.child(stId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        Log.d("--==DEBUG==--","Search for: "+emailToKey(email));
+        myRef.child(emailToKey(email)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
@@ -83,6 +105,7 @@ public class UserManager<T> extends CommonManager<UserModel> {
 
         try {
             list.add(obj);
+            addUserDB(obj);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,14 +114,14 @@ public class UserManager<T> extends CommonManager<UserModel> {
     }
 
     @Override
-    public  boolean remove(String id) {
+    public  boolean remove(String email) {
         Iterator it = list.iterator();
         UserModel temp;
         while (it.hasNext()) {
             temp = (UserModel) it.next();
-            if (temp.getUserId() == id) {
-                list.remove(temp);
-                deleteUserDB(id);
+            if (temp.getEmail() == emailToKey(email)) {
+                //   list.remove(temp);
+                deleteUserDB(email);
                 return true;
             }
 
@@ -109,10 +132,10 @@ public class UserManager<T> extends CommonManager<UserModel> {
     }
 
     @Override
-    public  boolean update(String id, UserModel newobj) {
+    public  boolean update(String email, UserModel newobj) {
 
-        if (remove(id)) {
-            newobj.setUserId(id);
+        if (remove(email)) {
+            newobj.setEmail(emailToKey(email));
             if (add(newobj)) {
                 addUserDB(newobj);
                 return true;
@@ -123,12 +146,12 @@ public class UserManager<T> extends CommonManager<UserModel> {
     }
 
     @Override
-    public  UserModel read(String id) {
+    public  UserModel read(String email) {
         Iterator it = list.iterator();
         UserModel temp;
         while (it.hasNext()) {
             temp = (UserModel) it.next();
-            if (temp.getUserId() == id) {
+            if (temp.getEmail() == emailToKey(email)) {
 
 
                 return temp;
@@ -139,4 +162,50 @@ public class UserManager<T> extends CommonManager<UserModel> {
         }
         return null;
     }
+
+/*
+    public  UserModel readByEmail(String email) {
+        Iterator it = list.iterator();
+        UserModel temp;
+        while (it.hasNext()) {
+            temp = (UserModel) it.next();
+            if (temp.getEmail() == email) {
+                return temp;
+            }
+        }
+        return null;
+    }
+*/
+
+/*
+     void getAllUsersAndObserve() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(dbref);
+        ValueEventListener listener = myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List< UserModel> list1 = new LinkedList< UserModel>();
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    UserModel user = snap.getValue( UserModel.class);
+                    list1.add(user);
+                }
+                list.clear();
+                list.addAll(list1);
+                print();
+              //  callback.onComplete(list1);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+              Log.d("ERROR",databaseError.getMessage().toString());
+            }
+        });
+    }
+*/
+
+
+
+
+
+
+
 }

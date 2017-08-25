@@ -7,9 +7,13 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
+import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.HomeActivity;
 import com.sefy.finalproject.Model.UserModel;
 import com.sefy.finalproject.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Vector;
 import java.util.regex.Pattern;

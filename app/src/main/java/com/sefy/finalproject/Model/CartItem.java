@@ -20,6 +20,15 @@ public class CartItem {
         return item;
     }
 
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "item=" + item +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
+
     public void setItem(ItemModel item) {
         this.item = item;
     }
