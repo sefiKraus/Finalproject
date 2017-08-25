@@ -44,6 +44,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
     @Override
     public void onSubmitLogin(String userEmail, String userPassword) {
         this.login(userEmail,userPassword);
+
     }
 
     @Override
