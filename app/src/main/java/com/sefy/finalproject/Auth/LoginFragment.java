@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sefy.finalproject.R;
+
+import java.util.regex.Pattern;
 
 public class LoginFragment extends Fragment {
     //TODO: set email pattern validator and password pattern
@@ -52,6 +55,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
+
                 mListener.onSubmitLogin(userEmail,userPassword);
             }
         });

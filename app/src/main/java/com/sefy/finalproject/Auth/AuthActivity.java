@@ -4,12 +4,15 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
+import android.widget.Toast;
 
 import com.sefy.finalproject.HomeActivity;
 import com.sefy.finalproject.Model.UserModel;
 import com.sefy.finalproject.R;
 
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 public class AuthActivity extends Activity implements RegisterFragment.OnRegisterListener, LoginFragment.OnLoginListener {
 
@@ -140,7 +143,12 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
      * @return
      */
     private Boolean register(String firstName, String lastName , String email, String password){
-        if(this.isUserExists(email)){
+        if(!this.validEmail(email)){
+            Toast.makeText(this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(this.isUserExists(email)){
+            Toast.makeText(this,"Email already in use",Toast.LENGTH_LONG).show();
             return false;
         }
         else{
@@ -157,10 +165,23 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
      * @return
      */
     private Boolean login(String email, String password){
-        if(this.authenticateUser(email, password)){
-            return true;
+        if(validEmail(email))
+        {
+
+            if(this.authenticateUser(email, password)){
+                return true;
+            }
+        }
+        else{
+            Toast.makeText(this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
+
         }
         return false;
+    }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
 }
