@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sefy.finalproject.Model.BrandManager;
 import com.sefy.finalproject.Model.BrandModel;
 import com.sefy.finalproject.R;
 
@@ -35,11 +37,13 @@ public class BrandAddFragment extends Fragment {
     private Button saveButton;
     private ImageView image;
     private TextView messageHandler;
+    private static BrandManager brandManager;
     public BrandAddFragment() {
         // Required empty public constructor
     }
 
     public static BrandAddFragment newInstance(String userEmail) {
+        brandManager = new BrandManager();
         BrandAddFragment fragment = new BrandAddFragment();
         Log.d("TAG","BrandAddFragment received "+userEmail);
         Bundle args = new Bundle();
@@ -96,8 +100,25 @@ public class BrandAddFragment extends Fragment {
                     String name  = brandName.getText().toString();
                     String description = brandDescription.getText().toString();
 
-                    BrandModel brandModel = new BrandModel(name,null,description,userEmail);
-                    Log.d("TAG","Brand created: "+brandModel.toString());
+                    final BrandModel brandModel = new BrandModel(name,null,description,userEmail);
+                    brandManager.getBrandDB(name, new BrandManager.GetBrandCallback() {
+                        @Override
+                        public void onComplete(BrandModel brand) {
+                            if(brand == null){
+                                if(brandManager.addBrandDB(brandModel)){
+                                    mListener.onBrandAdd(brandModel);
+                                }
+                            }else{
+                                Toast.makeText(getActivity(),"Brand already exists in database!",Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
             }
         });
@@ -141,6 +162,6 @@ public class BrandAddFragment extends Fragment {
         }
     }
     public interface OnBrandAddListener {
-        void onBrandAdd(String name, ImageView image, String description);
+        void onBrandAdd(BrandModel brand);
     }
 }

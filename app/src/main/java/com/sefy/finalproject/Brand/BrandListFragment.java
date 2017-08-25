@@ -15,21 +15,24 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.sefy.finalproject.Model.BrandManager;
 import com.sefy.finalproject.Model.BrandModel;
 import com.sefy.finalproject.R;
 
+import java.util.List;
 import java.util.Vector;
 
 public class BrandListFragment extends Fragment{
     BrandListAdapter adapter;
     private ListView brandList;
     private SearchView searchBar;
-    private static Vector<BrandModel> brandListVector;
+    private static List<BrandModel> brandListVector;
     private static final String USER_EMAIL = "userEmail";
     private static final String ARG_PARAM2 = "param2";
 
     private String userEmail;
     private String mParam2;
+    private static BrandManager brandManager;
 
     private OnBrandListListener mListener;
 
@@ -37,15 +40,17 @@ public class BrandListFragment extends Fragment{
         // Required empty public constructor
     }
 
+    public BrandListAdapter getAdapter() {
+        return adapter;
+    }
+
     public static BrandListFragment newInstance(String userEmail) {
         Bundle args = new Bundle();
         args.putString(USER_EMAIL, userEmail);
-        brandListVector = new Vector<>();
         BrandListFragment fragment = new BrandListFragment();
-        //TODO: remove after connecting to firebase
-        for(int i = 0 ; i< 20; i++){
-            brandListVector.add(new BrandModel("Brand name"+ i,null,"Brand "+ i+" Description", null));
-        }
+        brandListVector = new Vector<>();
+        brandManager = new BrandManager();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +74,18 @@ public class BrandListFragment extends Fragment{
 
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);
+        brandManager.getAllBrandsAndObserve(new BrandManager.GetBrandListCallback() {
+            @Override
+            public void onComplete(List<BrandModel> list) {
+                brandListVector = list;
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancel() {
+
+            }
+        });
         /**
          * setting search listener
          */

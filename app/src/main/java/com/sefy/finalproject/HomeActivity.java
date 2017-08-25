@@ -16,7 +16,10 @@ import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.Item.ItemAddFragment;
 import com.sefy.finalproject.Item.ItemEditFragment;
 import com.sefy.finalproject.Item.ItemListFragment;
+import com.sefy.finalproject.Model.BrandModel;
 import com.sefy.finalproject.Model.ItemModel;
+import com.sefy.finalproject.Model.UserManager;
+import com.sefy.finalproject.Model.UserModel;
 import com.sefy.finalproject.User.UserActivity;
 
 public class HomeActivity extends Activity implements
@@ -25,18 +28,37 @@ public class HomeActivity extends Activity implements
         ItemAddFragment.OnItemLAddListener,
         ItemEditFragment.OnItemEditListener,
         BrandAddFragment.OnBrandAddListener{
+    private UserManager userManager;
     private Bundle userDetails;
+    private UserModel currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        userManager = new UserManager();
         this.userDetails = getIntent().getExtras() ;
+        userManager.getUserDB(this.userDetails.get("userEmail").toString(), new UserManager.GetUserCallback() {
+            @Override
+            public void onComplete(UserModel user) {
+                currentUser = user;
+                BrandListFragment brandListFragment = BrandListFragment.newInstance(currentUser.getEmail());
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.brand_frag_container,brandListFragment);
+                transaction.addToBackStack("");
+                transaction.commit();
+            }
 
-        BrandListFragment brandListFragment = BrandListFragment.newInstance(this.userDetails.get("userEmail").toString());
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.brand_frag_container,brandListFragment);
-        transaction.addToBackStack("");
-        transaction.commit();
+            @Override
+            public void onCancel() {
+
+            }
+        });
+//
+//        BrandListFragment brandListFragment = BrandListFragment.newInstance(this.userDetails.get("userEmail").toString());
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(R.id.brand_frag_container,brandListFragment);
+//        transaction.addToBackStack("");
+//        transaction.commit();
 
         startService(new Intent(this, CartListService.class));
     }
@@ -61,17 +83,11 @@ public class HomeActivity extends Activity implements
     }
 
 
-    /**
-     * handling create new brand
-     * @param name
-     * @param image
-     * @param description
-     */
+
     @Override
-    public void onBrandAdd(String name, ImageView image, String description) {
-
+    public void onBrandAdd(BrandModel brand) {
+        Log.d("TAG",brand.toString());
     }
-
 
     /**
      * handling item selected
@@ -157,7 +173,7 @@ public class HomeActivity extends Activity implements
                  * getting back from BrandAddFragment or ItemListFragment to BrandListFragment
                  */
                 if(this.currentFragment  instanceof BrandAddFragment || this.currentFragment instanceof ItemListFragment){
-                    toDisplay = BrandListFragment.newInstance(userDetails.get("userEmail").toString());
+                    toDisplay = BrandListFragment.newInstance(currentUser.getEmail());
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
                     transaction.commit();
@@ -166,7 +182,7 @@ public class HomeActivity extends Activity implements
                      * getting back from ItemAddFragment to ItemListFragment
                      */
                     toDisplay = ItemListFragment.newInstance(((ItemAddFragment) this.currentFragment).getBrandName()
-                    ,userDetails.get("userEmail").toString()
+                    ,currentUser.getEmail()
                     );
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
@@ -178,7 +194,7 @@ public class HomeActivity extends Activity implements
                      * getting back from ItemEditFragment to ItemListFragment
                      */
                     toDisplay = ItemListFragment.newInstance(((ItemEditFragment) this.currentFragment).getBrandName()
-                            ,userDetails.get("userEmail").toString()
+                            ,currentUser.getEmail()
                     );
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
@@ -192,14 +208,14 @@ public class HomeActivity extends Activity implements
             case R.id.home_actionbar_add:{
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 if(this.currentFragment instanceof BrandListFragment){
-                    toDisplay = BrandAddFragment.newInstance(this.userDetails.get("userEmail").toString());
+                    toDisplay = BrandAddFragment.newInstance(currentUser.getEmail());
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
                     transaction.commit();
                     getActionBar().setDisplayHomeAsUpEnabled(true);
                 }else if(this.currentFragment instanceof ItemListFragment){
                     String itemListBrand = ((ItemListFragment) this.currentFragment).getBrandName();
-                    toDisplay = ItemAddFragment.newInstance(itemListBrand,this.userDetails.get("userEmail").toString());
+                    toDisplay = ItemAddFragment.newInstance(itemListBrand,currentUser.getEmail());
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
                     transaction.commit();
@@ -213,7 +229,12 @@ public class HomeActivity extends Activity implements
             break;
             case R.id.home_actionbar_user_details:{
                 Intent userActivity =  new Intent(getApplicationContext(), UserActivity.class);
-                userActivity.putExtras(this.userDetails);
+                Bundle bundle = new Bundle();
+                bundle.putString("userFirstName", currentUser.getFirstName());
+                bundle.putString("userLastName", currentUser.getLastName());
+                bundle.putString("userEmail", currentUser.getEmail());
+                bundle.putString("userPassword", currentUser.getPassword());
+                userActivity.putExtras(bundle);
                 startActivity(userActivity);
             }
             break;

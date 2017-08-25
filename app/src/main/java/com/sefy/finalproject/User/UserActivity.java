@@ -16,8 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sefy.finalproject.HomeActivity;
+import com.sefy.finalproject.Model.UserManager;
 import com.sefy.finalproject.Model.UserModel;
 import com.sefy.finalproject.R;
 
@@ -29,9 +31,14 @@ public class UserActivity extends Activity {
     private Button saveChanges;
     private ImageView image;
     private boolean firstNameChanged, passChanged, lastNameChanged;
+    private static UserManager userManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userManager = new UserManager();
+
         setContentView(R.layout.activity_user);
         this.firstNameChanged = false;
         this.lastNameChanged = false;
@@ -42,7 +49,6 @@ public class UserActivity extends Activity {
                                   this.userDetails.getString("userEmail"),
                                   this.userDetails.getString("userPassword"));
 
-        Log.d("TAG","User Activity received user details: "+ this.user.toString());
         this.email = (TextView) findViewById(R.id.user_details_email);
         this.firstName = (EditText) findViewById(R.id.user_details_firstName);
         this.lastName = (EditText) findViewById(R.id.user_details_lastName);
@@ -56,7 +62,15 @@ public class UserActivity extends Activity {
         this.saveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG","UserActivity Save change in database!!!!");
+                String fName = firstName.getText().toString();
+                String lName = lastName.getText().toString();
+                String mail = email.getText().toString();
+                String pass = password.getText().toString();
+
+                if(userManager.add(new UserModel(fName,lName,mail,pass))){
+                    Toast.makeText(UserActivity.this,"User details changed successfully",Toast.LENGTH_LONG).show();
+
+                }
             }
         });
         this.image = (ImageView) findViewById(R.id.user_details_image);
