@@ -34,10 +34,20 @@ public class CartListService {
 
     public void addToCart(CartItem cartItem){
         getInstance().cartItemVector.add(cartItem);
+        Log.d("TAG"," "+ getInstance().cartItemVector.size());
+
     }
 
     public void removeFromCart(CartItem cartItem){
-        getInstance().cartItemVector.remove(cartItem);
+        for(int i = 0 ; i< getInstance().cartItemVector.size() ; i++){
+            CartItem tempItem = getInstance().cartItemVector.get(i);
+            if(tempItem.getItem().getBrandName().equals(cartItem.getItem().getBrandName())
+                    && tempItem.getItem().getName().equals(cartItem.getItem().getName())){
+                getInstance().cartItemVector.remove(i);
+            }
+        }
+
+        Log.d("TAG"," "+ getInstance().cartItemVector.size());
     }
     public Vector<CartItem> getCartItemVector() {
         return cartItemVector;
