@@ -17,7 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
 
@@ -32,6 +34,7 @@ public class ItemAddFragment extends Fragment {
     private EditText itemName, itemDescription , itemPrice;
     ImageView image;
     Button saveButton;
+    private static ItemManager itemManager;
 
     private OnItemLAddListener mListener;
 
@@ -41,6 +44,7 @@ public class ItemAddFragment extends Fragment {
 
     public static ItemAddFragment newInstance(String brandName, String userEmail) {
         ItemAddFragment fragment = new ItemAddFragment();
+        itemManager = new ItemManager();
         Bundle args = new Bundle();
         args.putString(BRAND_NAME, brandName);
         args.putString(USER_EMAIL, userEmail);
@@ -85,17 +89,8 @@ public class ItemAddFragment extends Fragment {
                    itemDescription.getText().toString().matches("")||
                    itemPrice.getText().toString().matches("")
                    ){
-                    messageHandler.setText("Please insert all required fields!!");
-                    messageHandler.setTextColor(Color.RED);
+                    Toast.makeText(getActivity(),"Please insert all required fields",Toast.LENGTH_LONG).show();
 
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    messageHandler.setText("");
-                                }
-                            }
-                    ,3000);
                 }
                 else{
                     //TODO: create new item in data base and use listener
@@ -103,8 +98,13 @@ public class ItemAddFragment extends Fragment {
                     String description = itemDescription.getText().toString();
                     int price = Integer.parseInt(itemPrice.getText().toString());
                     ItemModel item = new ItemModel(name,price,null,description,brandName,userEmail);
-                    Log.d("TAG","Item created "+ item.toString());
-                }
+                    if(itemManager.addItemDB(item)){
+                        Toast.makeText(getActivity(),"New Item Created",Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getActivity(),"Error occurred please try again!!",Toast.LENGTH_LONG).show();
+
+                    }
+               }
             }
         });
         return contentView;

@@ -27,6 +27,7 @@ import com.sefy.finalproject.R;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
 import java.util.Vector;
 
 public class ItemListFragment extends Fragment {
@@ -35,7 +36,7 @@ public class ItemListFragment extends Fragment {
     private ImageView brandImage;
     private SearchView searchBar;
     private TextView brandNameText, brandDescriptionText;
-    private static Vector<ItemModel> itemListVector;
+    private static List<ItemModel> itemListVector;
 
     private static final String BRAND_NAME = "brandName";
     private static final String USER_EMAIL = "userEmail";
@@ -54,10 +55,10 @@ public class ItemListFragment extends Fragment {
         ItemListFragment fragment = new ItemListFragment();
         Bundle args = new Bundle();
         itemManager = new ItemManager();
+        itemListVector = new Vector<>();
 
         args.putString(BRAND_NAME, brandName);
         args.putString(USER_EMAIL, userEmail);
-        itemListVector = new Vector<>();
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,12 +85,26 @@ public class ItemListFragment extends Fragment {
         this.adapter = new ItemListAdapter();
         this.itemList.setAdapter(this.adapter);
 
+        itemManager.getAllItemsByBrand(brandName, new ItemManager.GetItemListCallback() {
+            @Override
+            public void onComplete(List<ItemModel> list) {
+                if(list !=null){
+                    itemListVector = list;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
         this.itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ItemModel itemModel = itemListVector.get(position);
                 if(itemModel.getUserEmail().equals(userEmail)){
-                    mListener.onItemEditRequest(itemModel.getName(),itemModel.getDescription(),itemModel.getPrice(),brandName,userEmail);
+                    mListener.onItemEditRequest(itemModel,brandName,userEmail);
                 }
                 else{
                     mListener.onItemSelected(itemModel.getName());
@@ -124,7 +139,7 @@ public class ItemListFragment extends Fragment {
 
     public interface OnItemListListener {
         void onItemSelected(String itemName);
-        void onItemEditRequest(String itemName, String itemDescription,int price, String brandName, String userEmail);
+        void onItemEditRequest(ItemModel item, String brandName, String userEmail);
     }
 
 
@@ -134,6 +149,9 @@ public class ItemListFragment extends Fragment {
 
         @Override
         public int getCount() {
+            if(itemListVector == null){
+                return 0;
+            }
             return itemListVector.size();
         }
 

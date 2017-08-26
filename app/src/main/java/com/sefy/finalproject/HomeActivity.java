@@ -94,15 +94,14 @@ public class HomeActivity extends Activity implements
     }
 
     /**
-     * Navigate to item edit fragment
-     * @param itemName
-     * @param itemDescription
+     *
+     * @param item
      * @param brandName
      * @param userEmail
      */
     @Override
-    public void onItemEditRequest(String itemName, String itemDescription, int price, String brandName, String userEmail) {
-        ItemEditFragment fragment = ItemEditFragment.newInstance(itemName,itemDescription,price,brandName,userEmail);
+    public void onItemEditRequest(ItemModel item, String brandName, String userEmail) {
+        ItemEditFragment fragment = ItemEditFragment.newInstance(item,brandName,userEmail);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.brand_frag_container, fragment);
         transaction.addToBackStack("");
@@ -139,8 +138,16 @@ public class HomeActivity extends Activity implements
     }
 
     @Override
-    public void onItemRemove() {
-        Log.d("TAG","onItemRemove");
+    public void onItemRemove(String brandName) {
+
+        ItemListFragment itemListFragment = ItemListFragment.newInstance(brandName , currentUser.getEmail());
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.brand_frag_container,itemListFragment);
+        transaction.addToBackStack("");
+        transaction.commit();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        this.menu.findItem(R.id.home_actionbar_add).setVisible(true);
+
     }
 /*------------------------------------------------------------------------------------------------*/
     /**
