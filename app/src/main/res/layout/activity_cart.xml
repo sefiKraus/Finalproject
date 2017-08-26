@@ -4,6 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sefy.finalproject.Cart.CartActivity">
+    tools:context="com.sefy.finalproject.Cart.CartActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="Cart List"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/cart_activity_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
 
 </LinearLayout>
