@@ -9,10 +9,14 @@ import android.util.Patterns;
 import android.widget.Toast;
 
 import com.sefy.finalproject.HomeActivity;
+import com.sefy.finalproject.Model.ItemManager;
+import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.Model.UserManager;
 import com.sefy.finalproject.Model.UserModel;
 import com.sefy.finalproject.R;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class AuthActivity extends Activity implements RegisterFragment.OnRegisterListener, LoginFragment.OnLoginListener {
@@ -25,7 +29,8 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         userManager = new UserManager();
-        LoginFragment loginFragment = LoginFragment.newInstance();
+
+               LoginFragment loginFragment = LoginFragment.newInstance();
         /**
          * setting transaction in order to display register fragment
          */

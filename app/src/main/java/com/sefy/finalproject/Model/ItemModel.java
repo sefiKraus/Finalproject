@@ -21,6 +21,7 @@ public class ItemModel {
     }
 
     public ItemModel(String name, int price, ImageView image, String description, String brandName,String userEmail) {
+
         this.name = name;
         this.price = price;
         this.image = image;

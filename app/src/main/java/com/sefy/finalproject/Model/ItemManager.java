@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Iterator;
@@ -192,6 +193,13 @@ public class ItemManager extends CommonManager<ItemModel> {
         void onCancel();
     }
 
+
+
+
+
+
+
+
      public void getAllItemsAndObserve( final GetItemListCallback callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(dbref);
@@ -215,9 +223,48 @@ public class ItemManager extends CommonManager<ItemModel> {
         });
     }
 
+    public void getAllItemsByBrand( String brandName,final GetItemListCallback callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(dbref);
+
+        Query results = myRef.orderByChild("brandName").equalTo(brandName);
+        ValueEventListener listener =results.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List< ItemModel> list1 = new LinkedList<ItemModel>();
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    ItemModel item = snap.getValue( ItemModel.class);
+                    list1.add(item);
+                }
+                //  list.clear();
+                // list.addAll(list1);
+                //  print();
+                callback.onComplete(list1);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("ERROR",databaseError.getMessage().toString());
+            }
+        });
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 

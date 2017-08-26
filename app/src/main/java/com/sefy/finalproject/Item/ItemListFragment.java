@@ -21,6 +21,7 @@ import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.Events.CartAddEvent;
 import com.sefy.finalproject.Events.CartRemoveEvent;
 import com.sefy.finalproject.Model.CartItem;
+import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
 
@@ -44,7 +45,7 @@ public class ItemListFragment extends Fragment {
 
     private ItemListAdapter adapter;
     private OnItemListListener mListener;
-
+    private static ItemManager itemManager;
     public ItemListFragment() {
         // Required empty public constructor
     }
@@ -52,16 +53,11 @@ public class ItemListFragment extends Fragment {
     public static ItemListFragment newInstance(String brandName,String userEmail) {
         ItemListFragment fragment = new ItemListFragment();
         Bundle args = new Bundle();
+        itemManager = new ItemManager();
+
         args.putString(BRAND_NAME, brandName);
         args.putString(USER_EMAIL, userEmail);
-
-
         itemListVector = new Vector<>();
-        //TODO: remove after connecting to firebase
-        itemListVector.add(new ItemModel("item "+0,0,null,"Item description "+0,brandName.toString(),userEmail));
-        for(int i = 1 ; i< 20; i++){
-            itemListVector.add(new ItemModel("item "+i,i* 15,null,"Item description "+i,brandName.toString(),"email@gmail.com"));
-        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -151,7 +147,6 @@ public class ItemListFragment extends Fragment {
             return 0;
         }
 
-        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
