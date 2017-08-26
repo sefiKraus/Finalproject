@@ -13,10 +13,10 @@ public class ItemModel {
     private int price;
     private ImageView image;
     private String description;
-    private String brandId;
     private String brandName;
     private String userEmail;
     private boolean isClicked;
+
     public ItemModel() {
     }
 
@@ -30,19 +30,7 @@ public class ItemModel {
         this.isClicked = false;
     }
 
-    @Override
-    public String toString() {
-        return "ItemModel{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", image=" + image +
-                ", description='" + description + '\'' +
-                ", brandId='" + brandId + '\'' +
-                ", brandName='" + brandName + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                '}';
-    }
+
 
     public String getId() {
         return id;
@@ -92,13 +80,6 @@ public class ItemModel {
         this.description = description;
     }
 
-    public String getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
-    }
 
     public String getBrandName() {
         return brandName;

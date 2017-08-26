@@ -7,6 +7,8 @@ import com.sefy.finalproject.Model.CartItem;
  */
 
 public class CartRemoveEvent {
+
+
     private CartItem cartItem;
 
     public CartItem getCartItemToRemove() {

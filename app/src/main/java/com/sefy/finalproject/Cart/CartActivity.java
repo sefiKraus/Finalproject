@@ -32,7 +32,7 @@ public class CartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         this.cartItemVector = new Vector<>();
-
+        cartListService = new CartListService();
         Intent intent = new Intent(this,CartListService.class);
         bindService(intent, myConnection , Context.BIND_AUTO_CREATE);
     }
@@ -40,6 +40,7 @@ public class CartActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+
         this.cartListService.printSize();
         Log.d("TAG","onStart");
     }
