@@ -18,7 +18,6 @@ import com.sefy.finalproject.Model.CartItem;
 import com.sefy.finalproject.R;
 
 import java.util.Vector;
-import com.sefy.finalproject.Cart.CartListService.MyLocalBinder;
 
 public class CartActivity extends Activity {
 
@@ -32,30 +31,19 @@ public class CartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         this.cartItemVector = new Vector<>();
-        cartListService = new CartListService();
-        Intent intent = new Intent(this,CartListService.class);
-        bindService(intent, myConnection , Context.BIND_AUTO_CREATE);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        this.cartListService.printSize();
-        Log.d("TAG","onStart");
+        this.cartItemVector = CartListService.getInstance().getCartItemVector();
+        if(this.cartItemVector == null){
+            Log.d("TAG","Vector size: 0");
+        }
+        else{
+            Log.d("TAG","Vector size: "+ this.cartItemVector.size());
+        }
     }
 
-    private ServiceConnection myConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MyLocalBinder binder = (MyLocalBinder) service;
-            cartListService = binder.getService();
-            isBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBound = false;
-        }
-    };
 }

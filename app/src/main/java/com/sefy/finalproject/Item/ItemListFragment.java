@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.Events.CartAddEvent;
 import com.sefy.finalproject.Events.CartRemoveEvent;
@@ -167,18 +168,14 @@ public class ItemListFragment extends Fragment {
                         public void onClick(View v) {
                             ItemModel item = itemListVector.get((int)v.getTag());
                             item.setClicked(!item.isClicked());
-
+                            CartItem cartItem = new CartItem(item,1,item.getPrice());
                             if(item.isClicked()){
                                 addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-                                CartAddEvent event = new CartAddEvent();
-                                event.setCartItemToAdd(new CartItem(item,1,item.getPrice()));
-                                EventBus.getDefault().post(event);
+                                CartListService.getInstance().addToCart(cartItem);
                             }
                             else{
                                 addToCart.setBackgroundResource(R.drawable.add_to_cart);
-                                CartRemoveEvent event = new CartRemoveEvent();
-                                event.setCartItemToRemove(new CartItem(item,1,item.getPrice()));
-                                EventBus.getDefault().post(event);
+                                CartListService.getInstance().removeFromCart(cartItem);
                             }
 
                         }

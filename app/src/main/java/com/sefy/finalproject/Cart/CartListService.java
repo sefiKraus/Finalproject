@@ -15,61 +15,32 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Vector;
-import com.sefy.finalproject.Cart.CartListService.MyLocalBinder;
 /**
  * Created by sefy1 on 25/08/2017.
  */
 
-public class CartListService extends Service {
+public class CartListService {
 
     private Vector<CartItem> cartItemVector;
-    private final IBinder myBinder = new MyLocalBinder();
+    private static final CartListService instance = new CartListService();
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return myBinder;
+    private CartListService(){
+        cartItemVector = new Vector<>();
     }
 
-
-    @Override
-    public int onStartCommand(Intent intent,int flags, int startId) {
-         super.onStartCommand(intent, flags, startId);
-        this.cartItemVector = new Vector<>();
-        EventBus.getDefault().register(this);
-        return START_STICKY;
+    public static CartListService getInstance() {
+        return instance;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void addToCart(CartItem cartItem){
+        getInstance().cartItemVector.add(cartItem);
     }
 
-    @Subscribe
-    public void onEvent(CartAddEvent event){
-        CartItem item = event.getCartItemToAdd();
-        this.cartItemVector.add(item);
-        Log.d("TAG","vector size: "+ this.cartItemVector.size());
+    public void removeFromCart(CartItem cartItem){
+        getInstance().cartItemVector.remove(cartItem);
+    }
+    public Vector<CartItem> getCartItemVector() {
+        return cartItemVector;
     }
 
-
-    @Subscribe
-    public void onEvent(CartRemoveEvent event){
-        CartItem item = event.getCartItemToRemove();
-        this.cartItemVector.remove(item);
-        Log.d("TAG","vector size: "+ this.cartItemVector.size());
-
-    }
-
-    public void printSize(){
-        Log.d("TAG","something");
-    }
-
-    /**
-     * binding client to service
-     */
-    public class MyLocalBinder extends Binder{
-        CartListService getService(){
-            return CartListService.this;
-        }
-    }
 }

@@ -55,7 +55,7 @@ public class HomeActivity extends Activity implements
             }
         });
 
-        startService(new Intent(this, CartListService.class));
+        CartListService service = CartListService.getInstance();
     }
 
 
