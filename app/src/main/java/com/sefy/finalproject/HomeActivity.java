@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.sefy.finalproject.Brand.BrandAddFragment;
 import com.sefy.finalproject.Brand.BrandListFragment;
+import com.sefy.finalproject.Cart.CartActivity;
 import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.Item.ItemAddFragment;
 import com.sefy.finalproject.Item.ItemEditFragment;
@@ -53,12 +54,6 @@ public class HomeActivity extends Activity implements
 
             }
         });
-//
-//        BrandListFragment brandListFragment = BrandListFragment.newInstance(this.userDetails.get("userEmail").toString());
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.replace(R.id.brand_frag_container,brandListFragment);
-//        transaction.addToBackStack("");
-//        transaction.commit();
 
         startService(new Intent(this, CartListService.class));
     }
@@ -224,7 +219,8 @@ public class HomeActivity extends Activity implements
             }
             break;
             case R.id.home_actionbar_cart:{
-                Log.d("TAG","Create new CartActivity intent");
+                Intent userActivity =  new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(userActivity);
             }
             break;
             case R.id.home_actionbar_user_details:{

@@ -5,22 +5,20 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.sefy.finalproject.Cart.CartListService;
-import com.sefy.finalproject.EventBus.CartEvent;
-import com.sefy.finalproject.Model.BrandModel;
+import com.sefy.finalproject.CustomMessageEvent;
+import com.sefy.finalproject.Events.CartAddEvent;
+import com.sefy.finalproject.Events.CartRemoveEvent;
 import com.sefy.finalproject.Model.CartItem;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
@@ -135,7 +133,6 @@ public class ItemListFragment extends Fragment {
 
     /*-----------------------------------------------------------------------------*/
     class ItemListAdapter extends BaseAdapter{
-        CartEvent event = new CartEvent();
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         @Override
@@ -173,10 +170,15 @@ public class ItemListFragment extends Fragment {
 
                             if(item.isClicked()){
                                 addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-//
+                                CartAddEvent event = new CartAddEvent();
+                                event.setCartItemToAdd(new CartItem(item,1,item.getPrice()));
+                                EventBus.getDefault().post(event);
                             }
                             else{
                                 addToCart.setBackgroundResource(R.drawable.add_to_cart);
+                                CartRemoveEvent event = new CartRemoveEvent();
+                                event.setCartItemToRemove(new CartItem(item,1,item.getPrice()));
+                                EventBus.getDefault().post(event);
                             }
 
                         }
@@ -205,6 +207,7 @@ public class ItemListFragment extends Fragment {
             if(!item.getUserEmail().equals(userEmail)){
             if(item.isClicked()){
                 addToCart.setBackgroundResource(R.drawable.remove_from_cart);
+
             }
             else{
                 addToCart.setBackgroundResource(R.drawable.add_to_cart);

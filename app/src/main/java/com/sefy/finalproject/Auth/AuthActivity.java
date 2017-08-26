@@ -1,5 +1,6 @@
 package com.sefy.finalproject.Auth;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,7 +64,6 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         fragmentTransaction.addToBackStack("GoToLoginPage");
         fragmentTransaction.commit();
     }
-/*--------------------------"Move to FireBase"----------------------------------*/
 
 
     /**
@@ -93,6 +93,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
                         }
                     }
                     else{
+                        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.auth_frag_container);
                         Toast.makeText(AuthActivity.this,"Email already in use !!!",Toast.LENGTH_LONG).show();
 
                     }
@@ -105,16 +106,6 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
             });
         }
 
-//        else if(this.isUserExists(email)){
-//
-//            Toast.makeText(this,"Email already in use",Toast.LENGTH_LONG).show();
-//            return false;
-//        }
-//        else{
-//            UserModel user = new UserModel(firstName,lastName,email,password);
-//            this.usersList.add(user);
-//            return true;
-//        }
     }
 
     /**

@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.sefy.finalproject.R;
 
 public class RegisterFragment extends Fragment {
-    //TODO: set email pattern validator and password pattern
-    EditText email,password,firstName,lastName;
-    Button register, login;
+    private EditText email,password,firstName,lastName;
+    private Button register, login;
     private OnRegisterListener mListener;
 
     public RegisterFragment() {
@@ -44,7 +44,6 @@ public class RegisterFragment extends Fragment {
         this.lastName = (EditText) contentView.findViewById(R.id.register_fragment_lastName);
         this.register = (Button) contentView.findViewById(R.id.register_fragment_submit);
         this.login = (Button) contentView.findViewById(R.id.register_fragment_login);
-
 
         this.register.setOnClickListener(new View.OnClickListener() {
             @Override
