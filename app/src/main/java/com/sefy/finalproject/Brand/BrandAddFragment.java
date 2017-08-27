@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.sefy.finalproject.Model.BrandManager;
 import com.sefy.finalproject.Model.BrandModel;
+import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.R;
 
 import org.w3c.dom.Text;
@@ -36,6 +37,7 @@ public class BrandAddFragment extends Fragment {
     private EditText brandName, brandDescription;
     private Button saveButton;
     private ImageView image;
+    private String imageurl;
     private TextView messageHandler;
     private static BrandManager brandManager;
     public BrandAddFragment() {
@@ -100,7 +102,7 @@ public class BrandAddFragment extends Fragment {
                     String name  = brandName.getText().toString();
                     String description = brandDescription.getText().toString();
 
-                    final BrandModel brandModel = new BrandModel(name,null,description,userEmail);
+                    final BrandModel brandModel = new BrandModel(name,imageurl,description,userEmail);
                     brandManager.getBrandDB(name, new BrandManager.GetBrandCallback() {
                         @Override
                         public void onComplete(BrandModel brand) {
@@ -159,6 +161,19 @@ public class BrandAddFragment extends Fragment {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(imageBitmap);
+           ImageManager imageManager = new ImageManager();
+            imageManager.saveImageAndCache(imageBitmap, "test1", new ImageManager.SaveImageListener() {
+                @Override
+                public void complete(String url) {
+imageurl=url;
+                }
+
+                @Override
+                public void fail() {
+Log.d("ERROR","saving image failed!");
+                }
+            });
+
         }
     }
     public interface OnBrandAddListener {

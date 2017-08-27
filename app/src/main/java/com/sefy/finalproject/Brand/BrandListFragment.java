@@ -2,6 +2,7 @@ package com.sefy.finalproject.Brand;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.sefy.finalproject.Model.BrandManager;
 import com.sefy.finalproject.Model.BrandModel;
+import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.R;
 
 import java.util.List;
@@ -154,7 +156,7 @@ public class BrandListFragment extends Fragment{
      */
     class BrandListAdapter extends BaseAdapter{
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
+        ImageView brandImage;
         @Override
         public int getCount() {
             return brandListVector.size();
@@ -187,14 +189,29 @@ public class BrandListFragment extends Fragment{
             }
 
             TextView brandName = (TextView) convertView.findViewById(R.id.brand_item_name);
-            ImageView brandImage = (ImageView) convertView.findViewById(R.id.brand_item_picture);
+             brandImage =(ImageView) convertView.findViewById(R.id.brand_item_picture);
             TextView brandDescription = (TextView) convertView.findViewById(R.id.brand_item_description);
 
             BrandModel brand = brandListVector.get(position);
             brandName.setText(brand.getName());
             brandDescription.setText(brand.getDescription());
 
-            //TODO: set brand picture when connected to db
+            ImageManager imageman= new ImageManager();
+            imageman.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
+                @Override
+                public void onSuccess(Bitmap image) {
+                    brandImage.setImageBitmap(image);
+                    notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
+
+
+
             return convertView;
         }
     }

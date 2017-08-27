@@ -132,16 +132,19 @@ public class ItemAddFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private void dispatchTakePictureIntent() {
+        /*intent to open image capture app*/
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        /*checks if such intent is possible and starts the activity of this app and expect for a result*/
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
-    @Override
+    @Override /*image capture activity returns with a result through this function*/
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
+            /*low res image*/
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(imageBitmap);
         }
