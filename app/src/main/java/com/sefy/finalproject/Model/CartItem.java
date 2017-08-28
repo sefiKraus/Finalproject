@@ -42,6 +42,7 @@ public class CartItem {
     }
 
     public int getTotalPrice() {
+        totalPrice=item.getPrice()*quantity;
         return totalPrice;
     }
 
