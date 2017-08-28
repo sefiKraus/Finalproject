@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
@@ -29,6 +30,7 @@ public class ItemEditFragment extends Fragment {
     private static final String ITEM_NAME = "itemNAme";
     private static final String ITEM_DESC = "itemDescription";
     private static final String BRAND_NAME = "brandName";
+    private static final String IMAGE_URL = "";
     private static final String USER_EMAIL = "userEmail";
     private static final String ITEM_PRICE = "itemPrice";
 
@@ -38,10 +40,11 @@ public class ItemEditFragment extends Fragment {
     private String itemDescription;
     private String brandName;
     private String  userEmail;
+    private String imageurl;
     private int itemPrice;
 
     private EditText name, description , price;
-    private ImageView image;
+    private ImageView _image;
     private Button save , remove;
     private TextView messageHandler;
     private OnItemEditListener mListener;
@@ -61,6 +64,7 @@ public class ItemEditFragment extends Fragment {
         args.putString(ITEM_DESC, item.getDescription());
         args.putString(BRAND_NAME, brandName);
         args.putString(USER_EMAIL, userEmail);
+        args.putString(IMAGE_URL, item.getImage());
         args.putInt(ITEM_PRICE, item.getPrice());
         fragment.setArguments(args);
         currentItem = item;
@@ -76,6 +80,12 @@ public class ItemEditFragment extends Fragment {
             brandName = getArguments().getString(BRAND_NAME);
             userEmail = getArguments().getString(USER_EMAIL);
             itemPrice = getArguments().getInt(ITEM_PRICE);
+            imageurl=getArguments().getString(IMAGE_URL);
+
+
+
+
+
         }
     }
 
@@ -87,9 +97,9 @@ public class ItemEditFragment extends Fragment {
         this.name = (EditText) contentView.findViewById(R.id.item_edit_fragment_itemName);
         this.description = (EditText) contentView.findViewById(R.id.item_edit_fragment_itemDescription);
         this.price = (EditText) contentView.findViewById(R.id.item_edit_fragment_itemPrice);
-        this.image = (ImageView) contentView.findViewById(R.id.item_edit_fragment_image);
+        this._image = (ImageView) contentView.findViewById(R.id.item_edit_fragment_image);
 
-        image.setOnClickListener(new View.OnClickListener() {
+        _image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
@@ -102,6 +112,23 @@ public class ItemEditFragment extends Fragment {
         this.name.setText(itemName);
         this.description.setText(itemDescription);
         this.price.setText(String.valueOf(itemPrice));
+        ImageManager imageman= new ImageManager();
+        imageman.loadImageFromCache(imageurl, new ImageManager.GetImageListener() {
+            @Override
+            public void onSuccess(Bitmap image) {
+                _image.setImageBitmap(image);
+              //  notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+
+
+
+
         // Setting buttons listeners
 
         this.save.setOnClickListener(new View.OnClickListener() {
@@ -116,10 +143,11 @@ public class ItemEditFragment extends Fragment {
                     String iName = name.getText().toString();
                     String iDescription = description.getText().toString();
                     int iPrice = Integer.parseInt(price.getText().toString());
-                    //TODO: Handle image
+
                     currentItem.setName(iName);
                     currentItem.setPrice(iPrice);
                     currentItem.setDescription(iDescription);
+                    currentItem.setImage(imageurl);
                     if(itemManager.addItemDB(currentItem)){
                         Toast.makeText(getActivity(),"Item patched successfully !!",Toast.LENGTH_LONG).show();
 
@@ -185,7 +213,21 @@ public class ItemEditFragment extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            image.setImageBitmap(imageBitmap);
+            _image.setImageBitmap(imageBitmap);
+            ImageManager imageManager = new ImageManager();
+            imageManager.saveImageAndCache(imageBitmap, itemName , new ImageManager.SaveImageListener() {
+                @Override
+                public void complete(String url) {
+                    imageurl=url;
+                }
+
+                @Override
+                public void fail() {
+                    Log.d("ERROR","saving image failed!");
+                }
+            });
+
+
         }
     }
     public interface OnItemEditListener {

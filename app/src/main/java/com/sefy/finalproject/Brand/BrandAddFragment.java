@@ -162,7 +162,7 @@ public class BrandAddFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(imageBitmap);
            ImageManager imageManager = new ImageManager();
-            imageManager.saveImageAndCache(imageBitmap, "test1", new ImageManager.SaveImageListener() {
+            imageManager.saveImageAndCache(imageBitmap, brandName.getText().toString(), new ImageManager.SaveImageListener() {
                 @Override
                 public void complete(String url) {
 imageurl=url;

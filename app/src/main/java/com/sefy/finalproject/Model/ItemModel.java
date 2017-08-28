@@ -11,7 +11,7 @@ public class ItemModel {
     private String id;
     private String name;
     private int price;
-    private ImageView image;
+    private String image;
     private String description;
     private String brandName;
     private String userEmail;
@@ -20,7 +20,7 @@ public class ItemModel {
     public ItemModel() {
     }
 
-    public ItemModel(String name, int price, ImageView image, String description, String brandName,String userEmail) {
+    public ItemModel(String name, int price, String image, String description, String brandName,String userEmail) {
 
         this.name = name;
         this.price = price;
@@ -65,11 +65,11 @@ public class ItemModel {
         this.price = price;
     }
 
-    public ImageView getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(ImageView image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

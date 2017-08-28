@@ -2,6 +2,8 @@ package com.sefy.finalproject.Item;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -20,7 +22,10 @@ import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.Events.CartAddEvent;
 import com.sefy.finalproject.Events.CartRemoveEvent;
+import com.sefy.finalproject.Model.BrandManager;
+import com.sefy.finalproject.Model.BrandModel;
 import com.sefy.finalproject.Model.CartItem;
+import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
@@ -84,6 +89,44 @@ public class ItemListFragment extends Fragment {
 
         this.adapter = new ItemListAdapter();
         this.itemList.setAdapter(this.adapter);
+
+        BrandManager brandManager = new BrandManager();
+        brandManager.getBrandDB(brandName, new BrandManager.GetBrandCallback() {
+            @Override
+            public void onComplete(BrandModel brand) {
+                brandNameText.setText(brand.getName());
+                brandDescriptionText.setText(brand.getDescription());
+                ImageManager imageManager = new ImageManager();
+                imageManager.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
+                    @Override
+                    public void onSuccess(Bitmap image) {
+                        brandImage.setImageBitmap(image);
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+
+
+
+
+
 
         itemManager.getAllItemsByBrand(brandName, new ItemManager.GetItemListCallback() {
             @Override
@@ -201,11 +244,23 @@ public class ItemListFragment extends Fragment {
             TextView itemDescription = (TextView) convertView.findViewById(R.id.item_list_row_description);
             TextView itemPrice = (TextView) convertView.findViewById(R.id.item_list_row_price);
             final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
-            //TODO: set picture when connected to db
+
             final ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_list_row_image);
 
             ItemModel item = itemListVector.get(position);
+            ImageManager imageman= new ImageManager();
+            imageman.loadImageFromCache(item.getImage(), new ImageManager.GetImageListener() {
+                @Override
+                public void onSuccess(Bitmap image) {
+                    itemImage.setImageBitmap(image);
+                    notifyDataSetChanged();
+                }
 
+                @Override
+                public void onFail() {
+
+                }
+            });
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
             itemPrice.setText(String.valueOf(item.getPrice())+" $");

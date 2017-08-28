@@ -90,6 +90,11 @@ public class CartActivity extends Activity {
 
             CartItem cartItem = cartItemVector.get(position);
             itemName.setText(cartItem.getItem().getName());
+            totalPrice.setText(String.valueOf(cartItem.getItem().getPrice()));
+            amount.setText(String.valueOf(cartItem.getQuantity()));
+
+            //itemPricture
+
 
             return convertView;
         }

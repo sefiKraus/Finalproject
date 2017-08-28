@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
@@ -29,6 +30,7 @@ public class ItemAddFragment extends Fragment {
     private static final String BRAND_NAME = "brandName";
     private static final String USER_EMAIL = "userEmail";
     private TextView messageHandler;
+    private String imageurl;
     private String brandName;
     private String userEmail;
     private EditText itemName, itemDescription , itemPrice;
@@ -97,7 +99,7 @@ public class ItemAddFragment extends Fragment {
                     String name = itemName.getText().toString();
                     String description = itemDescription.getText().toString();
                     int price = Integer.parseInt(itemPrice.getText().toString());
-                    ItemModel item = new ItemModel(name,price,null,description,brandName,userEmail);
+                    ItemModel item = new ItemModel(name,price,imageurl,description,brandName,userEmail);
                     if(itemManager.addItemDB(item)){
                         Toast.makeText(getActivity(),"New Item Created",Toast.LENGTH_LONG).show();
                     }else{
@@ -147,6 +149,23 @@ public class ItemAddFragment extends Fragment {
             /*low res image*/
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(imageBitmap);
+
+
+
+            ImageManager imageManager = new ImageManager();
+            imageManager.saveImageAndCache(imageBitmap, itemName.getText().toString(), new ImageManager.SaveImageListener() {
+                @Override
+                public void complete(String url) {
+                    imageurl=url;
+                }
+
+                @Override
+                public void fail() {
+                    Log.d("ERROR","saving image failed!");
+                }
+            });
+
+
         }
     }
 
