@@ -76,7 +76,14 @@ public class BrandAddFragment extends Fragment {
         this.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String tempName = brandName.getText().toString();
+                Log.d("-==DEBUG==-","brandName is: "+tempName);
+                if(!brandName.getText().toString().matches("")){
                 dispatchTakePictureIntent();
+                }
+                else{
+                    Toast.makeText(getActivity(),"please choose a name before uploading a picture",Toast.LENGTH_LONG).show();
+                }
             }
         });
         this.saveButton = (Button) contentView.findViewById(R.id.brand_add_fragment_save);

@@ -78,8 +78,18 @@ public class ItemAddFragment extends Fragment {
         this.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                String tempName = itemName.getText().toString();
+                Log.d("-==DEBUG==-","brandName is: "+tempName);
+                if(!itemName.getText().toString().matches("")){
+                    dispatchTakePictureIntent();
+                }
+                else{
+                    Toast.makeText(getActivity(),"please choose a name before uploading a picture",Toast.LENGTH_LONG).show();
+                }
             }
+
+
+
         });
         this.saveButton = (Button) contentView.findViewById(R.id.item_add_fragment_saveItem);
         this.messageHandler = (TextView) contentView.findViewById(R.id.item_add_fragment_messageHandler);
