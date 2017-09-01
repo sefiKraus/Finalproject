@@ -85,24 +85,20 @@ public class BrandAddFragment extends Fragment {
             //TODO: set image empty condition
             @Override
             public void onClick(View v) {
-                if(brandName.getText().toString().matches("") ||
-                        brandDescription.getText().toString().matches("")){
-                    messageHandler.setText("Please insert all required fields!!");
-                    messageHandler.setTextColor(Color.RED);
 
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    messageHandler.setText("");
-                                }
-                            }
-                            ,3000);
+
+
+                if(brandName.getText().toString().matches("") ||
+                        brandDescription.getText().toString().matches("") || imageurl == "" || imageurl == null){
+
+                    Toast.makeText(getActivity(),"please fill all the fields",Toast.LENGTH_LONG).show();
+
                 }else{
                     String name  = brandName.getText().toString();
                     String description = brandDescription.getText().toString();
 
                     final BrandModel brandModel = new BrandModel(name,imageurl,description,userEmail);
+
                     brandManager.getBrandDB(name, new BrandManager.GetBrandCallback() {
                         @Override
                         public void onComplete(BrandModel brand) {
@@ -165,7 +161,7 @@ public class BrandAddFragment extends Fragment {
             imageManager.saveImageAndCache(imageBitmap, brandName.getText().toString(), new ImageManager.SaveImageListener() {
                 @Override
                 public void complete(String url) {
-imageurl=url;
+                        imageurl=url;
                 }
 
                 @Override

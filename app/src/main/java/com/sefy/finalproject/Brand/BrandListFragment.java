@@ -63,6 +63,7 @@ public class BrandListFragment extends Fragment{
         if (getArguments() != null) {
             userEmail = getArguments().getString(USER_EMAIL);
       }
+
     }
 
     @Override
@@ -73,13 +74,15 @@ public class BrandListFragment extends Fragment{
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         this.brandList = (ListView) contentView.findViewById(R.id.brand_list_fragment_list);
         this.searchBar = (SearchView) contentView.findViewById(R.id.brand_list_fragment_search);
-
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);
         brandManager.getAllBrandsAndObserve(new BrandManager.GetBrandListCallback() {
             @Override
             public void onComplete(List<BrandModel> list) {
-                brandListVector = list;
+                Log.d("-==DEBUG==-","Brand list updated");
+                //brandListVector = list;
+                brandListVector.clear();
+                brandListVector.addAll(list);
                 adapter.notifyDataSetChanged();
             }
 
@@ -88,6 +91,9 @@ public class BrandListFragment extends Fragment{
 
             }
         });
+
+
+
         /**
          * setting search listener
          */
@@ -156,7 +162,6 @@ public class BrandListFragment extends Fragment{
      */
     class BrandListAdapter extends BaseAdapter{
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        ImageView brandImage;
         @Override
         public int getCount() {
             return brandListVector.size();
@@ -181,6 +186,9 @@ public class BrandListFragment extends Fragment{
          */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            BrandModel brand = brandListVector.get(position);
+            final ImageView brandImage;
+
             if(convertView == null){
                 /**
                  * getting fragment inflater
@@ -192,24 +200,26 @@ public class BrandListFragment extends Fragment{
              brandImage =(ImageView) convertView.findViewById(R.id.brand_item_picture);
             TextView brandDescription = (TextView) convertView.findViewById(R.id.brand_item_description);
 
-            BrandModel brand = brandListVector.get(position);
             brandName.setText(brand.getName());
             brandDescription.setText(brand.getDescription());
+            brandImage.setTag(position);
+            Log.d("-==DEBUG==-","getView was called for position: "+position);
+
 
             ImageManager imageman= new ImageManager();
-//            imageman.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
-//                @Override
-//                public void onSuccess(Bitmap image) {
-//                    brandImage.setImageBitmap(image);
-//                    notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onFail() {
-//
-//                }
-//            });
+            imageman.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
+                @Override
+                public void onSuccess(Bitmap image) {
 
+                    brandImage.setImageBitmap(image);
+                    // notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
 
 
             return convertView;
