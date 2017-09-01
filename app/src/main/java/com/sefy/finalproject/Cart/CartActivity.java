@@ -3,12 +3,15 @@ package com.sefy.finalproject.Cart;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,11 +21,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.sefy.finalproject.HomeActivity;
 import com.sefy.finalproject.Model.CartItem;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
+import com.sefy.finalproject.User.UserActivity;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -34,6 +40,7 @@ public class CartActivity extends Activity {
     private CartListAdapter adapter;
     Button checkoutButton;
     TextView cartTotalPrice;
+    Bundle userDetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,22 +54,21 @@ public class CartActivity extends Activity {
         this.checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "Total price is: "+ cartTotalPrice.getText());
+                if(cartItemVector.size() == 0){
+                    Toast.makeText(CartActivity.this,"Shopping cart is empty !!",Toast.LENGTH_LONG).show();
+
+                }
             }
         });
-        this.cartTotalPrice.setText(String.valueOf(calculateTotal()));
+        this.userDetails = getIntent().getExtras();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         this.cartItemVector = CartListService.getInstance().getCartItemVector();
-        if(this.cartItemVector == null){
-            Log.d("TAG","Vector size: 0");
-        }
-        else{
-            Log.d("TAG","Vector size: "+ this.cartItemVector.size());
-        }
+        this.cartTotalPrice.setText(String.valueOf(calculateTotal()));
     }
 
     int calculateTotal() {
@@ -77,9 +83,31 @@ public class CartActivity extends Activity {
 
     }
 
+    private Menu menu;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+         super.onCreateOptionsMenu(menu);
+        this.menu = menu;
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
 
-
+        switch (itemId){
+            case android.R.id.home:{
+                Intent homeActivity = new Intent(getApplicationContext() , HomeActivity.class);
+                homeActivity.putExtras(this.userDetails);
+                startActivity(homeActivity);
+            }
+            break;
+            default:{
+                return super.onOptionsItemSelected(item);
+            }
+        }
+        return true;
+    }
 
     class CartListAdapter extends BaseAdapter {
         LayoutInflater inflater = CartActivity.this.getLayoutInflater();
@@ -120,45 +148,40 @@ public class CartActivity extends Activity {
             totalPrice.setText(String.valueOf(cartItem.getItem().getPrice()));
             amount.setText(String.valueOf(cartItem.getQuantity()));
             Button remove = (Button) convertView.findViewById(R.id.cart_list_row_remove);
+            Button minus = (Button) convertView.findViewById(R.id.cart_list_row_minus);
+            Button plus = (Button) convertView.findViewById(R.id.cart_list_row_plus);
+
+            minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(cartItem.getQuantity() != 0){
+                        cartItem.setQuantity(cartItem.getQuantity()-1);
+                        amount.setText(String.valueOf(cartItem.getQuantity()));
+                        cartTotalPrice.setText(String.valueOf(calculateTotal()));
+                    }
+                }
+            });
+
+            plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cartItem.setQuantity(cartItem.getQuantity()+1);
+                    amount.setText(String.valueOf(cartItem.getQuantity()));
+                    cartTotalPrice.setText(String.valueOf(calculateTotal()));
+                }
+            });
 
 
 
-//            amount.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    if(s.toString().matches("")){
-//
-//                      //  amount.setText("");
-//                       // cartItem.setQuantity(0);
-//                       // totalPrice.setText(String.valueOf(cartItem.getTotalPrice()));
-//
-//                    }else{
-//
-//                        int newAmount = Integer.parseInt(s.toString());
-//                        cartItem.setQuantity(newAmount);
-//                        totalPrice.setText(String.valueOf(cartItem.getTotalPrice()));
-//                        cartTotalPrice.setText(String.valueOf(calculateTotal()));
-//                    }
-//                }
-//            });
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     cartItemVector.remove(position);
                     cartItem.getItem().setClicked(false);
+                    Log.d("TAG", cartItem.getItem().toString());
                     cartItem.setQuantity(0);
                     cartItem.setTotalPrice(0);
-
+                    cartTotalPrice.setText(String.valueOf(calculateTotal()));
                     notifyDataSetChanged();
                 }
             });

@@ -112,19 +112,19 @@ public class ItemEditFragment extends Fragment {
         this.name.setText(itemName);
         this.description.setText(itemDescription);
         this.price.setText(String.valueOf(itemPrice));
-        ImageManager imageman= new ImageManager();
-        imageman.loadImageFromCache(imageurl, new ImageManager.GetImageListener() {
-            @Override
-            public void onSuccess(Bitmap image) {
-                _image.setImageBitmap(image);
-              //  notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-        });
+//        ImageManager imageman= new ImageManager();
+//        imageman.loadImageFromCache(imageurl, new ImageManager.GetImageListener() {
+//            @Override
+//            public void onSuccess(Bitmap image) {
+//                _image.setImageBitmap(image);
+//              //  notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFail() {
+//
+//            }
+//        });
 
 
 

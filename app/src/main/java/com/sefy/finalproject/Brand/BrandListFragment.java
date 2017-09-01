@@ -209,7 +209,7 @@ public class BrandListFragment extends Fragment{
 //
 //                }
 //            });
-
+//
 
 
             return convertView;

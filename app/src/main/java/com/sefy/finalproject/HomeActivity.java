@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.sefy.finalproject.Auth.AuthActivity;
 import com.sefy.finalproject.Brand.BrandAddFragment;
 import com.sefy.finalproject.Brand.BrandListFragment;
 import com.sefy.finalproject.Cart.CartActivity;
@@ -226,8 +227,9 @@ public class HomeActivity extends Activity implements
             }
             break;
             case R.id.home_actionbar_cart:{
-                Intent userActivity =  new Intent(getApplicationContext(), CartActivity.class);
-                startActivity(userActivity);
+                Intent cartActivity =  new Intent(getApplicationContext(), CartActivity.class);
+                cartActivity.putExtras(this.userDetails);
+                startActivity(cartActivity);
             }
             break;
             case R.id.home_actionbar_user_details:{
@@ -239,6 +241,11 @@ public class HomeActivity extends Activity implements
                 bundle.putString("userPassword", currentUser.getPassword());
                 userActivity.putExtras(bundle);
                 startActivity(userActivity);
+            }
+            break;
+            case R.id.home_actionbar_logout:{
+                Intent authActivity = new Intent(getApplicationContext(), AuthActivity.class);
+                startActivity(authActivity);
             }
             break;
             default:{

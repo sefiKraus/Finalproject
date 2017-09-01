@@ -31,7 +31,19 @@ public class ItemModel {
         this.isClicked = false;
     }
 
-
+    @Override
+    public String toString() {
+        return "ItemModel{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", brandName='" + brandName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", isClicked=" + isClicked +
+                '}';
+    }
 
     public String getId() {
         return id;

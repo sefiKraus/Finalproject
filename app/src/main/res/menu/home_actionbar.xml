@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/home_actionbar_add"
-        android:title="Add new brand"
+        android:title="Create new brand/item"
         android:showAsAction="ifRoom"
         android:icon="@drawable/add_button"
         ></item>
@@ -13,11 +13,16 @@
         android:showAsAction="ifRoom"
         android:icon="@drawable/cart_icon"
         ></item>
+
     <item
         android:id="@+id/home_actionbar_user_details"
         android:title="My profile"
         android:showAsAction="ifRoom"
         android:icon="@drawable/user_details_icon"
         ></item>
-
+    <item
+        android:id="@+id/home_actionbar_logout"
+        android:title="Logout"
+        android:showAsAction="withText"
+        ></item>
 </menu>
