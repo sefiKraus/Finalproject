@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.Events.CartAddEvent;
 import com.sefy.finalproject.Events.CartRemoveEvent;
+import com.sefy.finalproject.HomeActivity;
 import com.sefy.finalproject.Model.BrandManager;
 import com.sefy.finalproject.Model.BrandModel;
 import com.sefy.finalproject.Model.CartItem;
@@ -29,6 +31,7 @@ import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
+import com.sefy.finalproject.User.UserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -219,20 +222,12 @@ public class ItemListFragment extends Fragment {
                 if(!itemListVector.get(position).getUserEmail().equals(userEmail)){
                     final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
                     addToCart.setOnClickListener(new View.OnClickListener() {
-                        @TargetApi(Build.VERSION_CODES.M)
                         @Override
                         public void onClick(View v) {
                             ItemModel item = itemListVector.get((int)v.getTag());
-                            item.setClicked(!item.isClicked());
                             CartItem cartItem = new CartItem(item,1,item.getPrice());
-                            if(item.isClicked()){
-                                addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-                                CartListService.getInstance().addToCart(cartItem);
-                            }
-                            else{
-                                addToCart.setBackgroundResource(R.drawable.add_to_cart);
-                                CartListService.getInstance().removeFromCart(cartItem);
-                            }
+                            CartListService.getInstance().addToCart(cartItem);
+                            Toast.makeText(getActivity(),"Item added to shopping list",Toast.LENGTH_LONG).show();
 
                         }
                     });
@@ -270,15 +265,7 @@ public class ItemListFragment extends Fragment {
              * current email
              */
             if(!item.getUserEmail().equals(userEmail)){
-            if(item.isClicked()){
-                addToCart.setBackgroundResource(R.drawable.remove_from_cart);
-
-            }
-            else{
-                addToCart.setBackgroundResource(R.drawable.add_to_cart);
-            }
-            addToCart.setTag(position);
-
+                        addToCart.setTag(position);
             }
             else{
                 addToCart.setVisibility(View.INVISIBLE);

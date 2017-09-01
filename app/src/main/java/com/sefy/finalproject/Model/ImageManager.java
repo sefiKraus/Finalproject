@@ -141,6 +141,7 @@ public class ImageManager {
     /*download image from firebase*/
     private void getImage(String url, final GetImageListener listener){
         FirebaseStorage storage = FirebaseStorage.getInstance();
+        Log.d("TAG", url);
         StorageReference httpsReference = storage.getReferenceFromUrl(url);
         final long ONE_MEGABYTE = 1024 * 1024;
         httpsReference.getBytes(3* ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
