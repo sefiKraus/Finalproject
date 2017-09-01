@@ -90,7 +90,7 @@ public class ItemAddFragment extends Fragment {
 
 
 
-        });
+        });            
         this.saveButton = (Button) contentView.findViewById(R.id.item_add_fragment_saveItem);
         this.messageHandler = (TextView) contentView.findViewById(R.id.item_add_fragment_messageHandler);
         this.saveButton.setOnClickListener(new View.OnClickListener() {
