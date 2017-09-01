@@ -199,9 +199,7 @@ public class BrandManager extends CommonManager<BrandModel> {
                     BrandModel brand = snap.getValue( BrandModel.class);
                     list1.add(brand);
                 }
-              //  list.clear();
-               // list.addAll(list1);
-              //  print();
+
                 callback.onComplete(list1);
             }
             @Override

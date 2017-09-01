@@ -97,17 +97,17 @@ public class ItemListFragment extends Fragment {
                 brandNameText.setText(brand.getName());
                 brandDescriptionText.setText(brand.getDescription());
                 ImageManager imageManager = new ImageManager();
-                imageManager.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
-                    @Override
-                    public void onSuccess(Bitmap image) {
-                        brandImage.setImageBitmap(image);
-                    }
-
-                    @Override
-                    public void onFail() {
-
-                    }
-                });
+//                imageManager.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
+//                    @Override
+//                    public void onSuccess(Bitmap image) {
+//                        brandImage.setImageBitmap(image);
+//                    }
+//
+//                    @Override
+//                    public void onFail() {
+//
+//                    }
+//                });
 
 
 
@@ -249,18 +249,18 @@ public class ItemListFragment extends Fragment {
 
             ItemModel item = itemListVector.get(position);
             ImageManager imageman= new ImageManager();
-            imageman.loadImageFromCache(item.getImage(), new ImageManager.GetImageListener() {
-                @Override
-                public void onSuccess(Bitmap image) {
-                    itemImage.setImageBitmap(image);
-                    notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFail() {
-
-                }
-            });
+//            imageman.loadImageFromCache(item.getImage(), new ImageManager.GetImageListener() {
+//                @Override
+//                public void onSuccess(Bitmap image) {
+//                    itemImage.setImageBitmap(image);
+//                    notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onFail() {
+//
+//                }
+//            });
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
             itemPrice.setText(String.valueOf(item.getPrice())+" $");

@@ -5,17 +5,17 @@
 
     <ImageView
         android:id="@+id/cart_list_row_image"
-        android:layout_width="0dp"
+        android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_weight="1"
+
         android:src="@drawable/armani_sunglasses"/>
 
     <LinearLayout
         android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/cart_list_row_itemName"
             android:layout_width="wrap_content"
@@ -33,26 +33,48 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:textSize="10dp"
                 android:text="Amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
-
-            <EditText
-                android:id="@+id/cart_list_row_amount"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="numberSigned" />
+                android:layout_weight="2">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="-"
+                    style="@style/MyButtonStyleSmall"/>
+                <TextView
+                    android:id="@+id/cart_list_row_amount"
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="2"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="+"
+                    style="@style/MyButtonStyleSmall"/>
+            </LinearLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/cart_list_row_amount"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:inputType="numberSigned" />-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_margin="5dp"
                 android:textSize="10dp"
                 android:text="Price"
                 android:layout_width="0dp"
@@ -60,18 +82,21 @@
                 android:layout_weight="1"/>
 
             <TextView
-                android:layout_margin="5dp"
+                android:gravity="center"
                 android:id="@+id/cart_list_row_totalPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:inputType="numberSigned" />
         </LinearLayout>
+
+    </LinearLayout>
     <Button
         android:id="@+id/cart_list_row_remove"
         android:textSize="10dp"
         android:text="remove"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        style="@style/MyButtonStyleSmall"
+        android:layout_margin="5dp"/>
 </LinearLayout>

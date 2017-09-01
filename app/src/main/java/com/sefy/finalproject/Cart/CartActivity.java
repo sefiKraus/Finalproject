@@ -107,46 +107,50 @@ public class CartActivity extends Activity {
 
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.cart_list_row, null);
+
             }
+            final CartItem cartItem = cartItemVector.get(position);
+
             TextView itemName = (TextView) convertView.findViewById(R.id.cart_list_row_itemName);
             final TextView totalPrice = (TextView) convertView.findViewById(R.id.cart_list_row_totalPrice);
             ImageView itemPricture = (ImageView) convertView.findViewById(R.id.cart_list_row_image);
-            final EditText amount = (EditText) convertView.findViewById(R.id.cart_list_row_amount);
-            Button remove = (Button) convertView.findViewById(R.id.cart_list_row_remove);
+            final TextView amount = (TextView) convertView.findViewById(R.id.cart_list_row_amount);
 
-            final CartItem cartItem = cartItemVector.get(position);
             itemName.setText(cartItem.getItem().getName());
             totalPrice.setText(String.valueOf(cartItem.getItem().getPrice()));
             amount.setText(String.valueOf(cartItem.getQuantity()));
+            Button remove = (Button) convertView.findViewById(R.id.cart_list_row_remove);
 
-            amount.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if(s.toString().matches("")){
-
-                      //  amount.setText("");
-                       // cartItem.setQuantity(0);
-                       // totalPrice.setText(String.valueOf(cartItem.getTotalPrice()));
-
-                    }else{
-
-                        int newAmount = Integer.parseInt(s.toString());
-                        cartItem.setQuantity(newAmount);
-                        totalPrice.setText(String.valueOf(cartItem.getTotalPrice()));
-                        cartTotalPrice.setText(String.valueOf(calculateTotal()));
-                    }
-                }
-            });
+//            amount.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                    if(s.toString().matches("")){
+//
+//                      //  amount.setText("");
+//                       // cartItem.setQuantity(0);
+//                       // totalPrice.setText(String.valueOf(cartItem.getTotalPrice()));
+//
+//                    }else{
+//
+//                        int newAmount = Integer.parseInt(s.toString());
+//                        cartItem.setQuantity(newAmount);
+//                        totalPrice.setText(String.valueOf(cartItem.getTotalPrice()));
+//                        cartTotalPrice.setText(String.valueOf(calculateTotal()));
+//                    }
+//                }
+//            });
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

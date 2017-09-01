@@ -197,18 +197,18 @@ public class BrandListFragment extends Fragment{
             brandDescription.setText(brand.getDescription());
 
             ImageManager imageman= new ImageManager();
-            imageman.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
-                @Override
-                public void onSuccess(Bitmap image) {
-                    brandImage.setImageBitmap(image);
-                    notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFail() {
-
-                }
-            });
+//            imageman.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
+//                @Override
+//                public void onSuccess(Bitmap image) {
+//                    brandImage.setImageBitmap(image);
+//                    notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onFail() {
+//
+//                }
+//            });
 
 
 
