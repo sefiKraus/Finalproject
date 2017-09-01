@@ -16,6 +16,7 @@ import com.sefy.finalproject.Brand.BrandListFragment;
 import com.sefy.finalproject.Cart.CartActivity;
 import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.Item.ItemAddFragment;
+import com.sefy.finalproject.Item.ItemDetailsFragment;
 import com.sefy.finalproject.Item.ItemEditFragment;
 import com.sefy.finalproject.Item.ItemListFragment;
 import com.sefy.finalproject.Model.BrandModel;
@@ -85,13 +86,15 @@ public class HomeActivity extends Activity implements
         Log.d("TAG",brand.toString());
     }
 
-    /**
-     * handling item selected
-     * @param itemName
-     */
+
     @Override
-    public void onItemSelected(String itemName) {
-        Log.d("TAG","Navigate to item details fragment of item: "+itemName);
+    public void onItemSelected(ItemModel itemModel) {
+        ItemDetailsFragment fragment = ItemDetailsFragment.newInstance(itemModel);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.brand_frag_container, fragment);
+        transaction.addToBackStack("");
+        transaction.commit();
+        this.menu.findItem(R.id.home_actionbar_add).setVisible(false);
     }
 
     /**

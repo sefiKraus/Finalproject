@@ -150,12 +150,11 @@ public class ItemListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ItemModel itemModel = itemListVector.get(position);
-                Log.d("TAG", "clicked");
                 if(itemModel.getUserEmail().equals(userEmail)){
                     mListener.onItemEditRequest(itemModel,brandName,userEmail);
                 }
                 else{
-                    mListener.onItemSelected(itemModel.getName());
+                    mListener.onItemSelected(itemModel);
                 }
             }
         });
@@ -186,7 +185,7 @@ public class ItemListFragment extends Fragment {
 
 
     public interface OnItemListListener {
-        void onItemSelected(String itemName);
+        void onItemSelected(ItemModel itemModel);
         void onItemEditRequest(ItemModel item, String brandName, String userEmail);
     }
 
