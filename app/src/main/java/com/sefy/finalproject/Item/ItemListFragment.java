@@ -89,59 +89,59 @@ public class ItemListFragment extends Fragment {
 
         this.adapter = new ItemListAdapter();
         this.itemList.setAdapter(this.adapter);
-//
-//        BrandManager brandManager = new BrandManager();
-//        brandManager.getBrandDB(brandName, new BrandManager.GetBrandCallback() {
-//            @Override
-//            public void onComplete(BrandModel brand) {
-//                brandNameText.setText(brand.getName());
-//                brandDescriptionText.setText(brand.getDescription());
-//                ImageManager imageManager = new ImageManager();
-//                imageManager.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
-//                    @Override
-//                    public void onSuccess(Bitmap image) {
-//                        brandImage.setImageBitmap(image);
-//                    }
-//
-//                    @Override
-//                    public void onFail() {
-//
-//                    }
-//                });
-//
-//
-//
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//        });
-//
-//
-//
-//
-//
-//
-//
-//        itemManager.getAllItemsByBrand(brandName, new ItemManager.GetItemListCallback() {
-//            @Override
-//            public void onComplete(List<ItemModel> list) {
-//                if(list !=null){
-//                    itemListVector = list;
-//                    adapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//        });
+
+        BrandManager brandManager = new BrandManager();
+        brandManager.getBrandDB(brandName, new BrandManager.GetBrandCallback() {
+            @Override
+            public void onComplete(BrandModel brand) {
+                brandNameText.setText(brand.getName());
+                brandDescriptionText.setText(brand.getDescription());
+                ImageManager imageManager = new ImageManager();
+                imageManager.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
+                    @Override
+                    public void onSuccess(Bitmap image) {
+                        brandImage.setImageBitmap(image);
+                   }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+               });
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+
+
+
+
+
+
+        itemManager.getAllItemsByBrand(brandName, new ItemManager.GetItemListCallback() {
+            @Override
+            public void onComplete(List<ItemModel> list) {
+                if(list !=null){
+                    itemListVector = list;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
         this.itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -219,6 +219,7 @@ public class ItemListFragment extends Fragment {
                 if(!itemListVector.get(position).getUserEmail().equals(userEmail)){
                     final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
                     addToCart.setOnClickListener(new View.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.M)
                         @Override
                         public void onClick(View v) {
                             ItemModel item = itemListVector.get((int)v.getTag());
@@ -247,19 +248,19 @@ public class ItemListFragment extends Fragment {
             final ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_list_row_image);
 
             ItemModel item = itemListVector.get(position);
-//            ImageManager imageman= new ImageManager();
-//            imageman.loadImageFromCache(item.getImage(), new ImageManager.GetImageListener() {
-//                @Override
-//                public void onSuccess(Bitmap image) {
-//                    itemImage.setImageBitmap(image);
-//                    notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onFail() {
-//
-//                }
-//            });
+            ImageManager imageman= new ImageManager();
+           imageman.loadImageFromCache(item.getImage(), new ImageManager.GetImageListener() {
+                @Override
+                public void onSuccess(Bitmap image) {
+                   itemImage.setImageBitmap(image);
+                 //   notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
             itemPrice.setText(String.valueOf(item.getPrice())+" $");

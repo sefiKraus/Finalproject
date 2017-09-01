@@ -61,6 +61,7 @@ public class ImageManager {
                     Environment.DIRECTORY_PICTURES);
             if (!dir.exists()) {
                 dir.mkdir();
+                Log.d("-====DEBUG====-","dir doesnt exist creating a new one");
             }
             File imageFile = new File(dir,imageFileName);
             imageFile.createNewFile();
