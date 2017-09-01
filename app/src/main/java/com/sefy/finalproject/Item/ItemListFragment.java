@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,6 +150,7 @@ public class ItemListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ItemModel itemModel = itemListVector.get(position);
+                Log.d("TAG", "clicked");
                 if(itemModel.getUserEmail().equals(userEmail)){
                     mListener.onItemEditRequest(itemModel,brandName,userEmail);
                 }
@@ -239,7 +241,7 @@ public class ItemListFragment extends Fragment {
             TextView itemDescription = (TextView) convertView.findViewById(R.id.item_list_row_description);
             TextView itemPrice = (TextView) convertView.findViewById(R.id.item_list_row_price);
             final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
-
+            addToCart.setFocusable(false);
             final ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_list_row_image);
 
             ItemModel item = itemListVector.get(position);
