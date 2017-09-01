@@ -33,8 +33,28 @@ public class CartListService {
     }
 
     public void addToCart(CartItem cartItem){
-        getInstance().cartItemVector.add(cartItem);
-        Log.d("TAG"," "+ getInstance().cartItemVector.size());
+
+        if(getInstance().cartItemVector.size() ==0){
+            cartItemVector.add(cartItem);
+
+        }
+        else{
+            CartItem tempItem = null;
+            for(int i = 0 ; i< getInstance().cartItemVector.size() ; i++) {
+                if(getInstance().cartItemVector.get(i).getItem().getId().equals(cartItem.getItem().getId())){
+                    tempItem =getInstance().cartItemVector.get(i);
+                    break;
+                }
+            }
+            if(tempItem == null){
+                getInstance().cartItemVector.add(cartItem);
+            }
+            else{
+                tempItem.setQuantity(tempItem.getQuantity() + 1);
+            }
+
+        }
+
 
     }
 
@@ -43,7 +63,9 @@ public class CartListService {
             CartItem tempItem = getInstance().cartItemVector.get(i);
             if(tempItem.getItem().getBrandName().equals(cartItem.getItem().getBrandName())
                     && tempItem.getItem().getName().equals(cartItem.getItem().getName())){
+
                 getInstance().cartItemVector.remove(i);
+
             }
         }
 

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.sefy.finalproject.HomeActivity;
+import com.sefy.finalproject.Item.ItemListFragment;
 import com.sefy.finalproject.Model.CartItem;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
@@ -178,10 +179,10 @@ public class CartActivity extends Activity {
                 public void onClick(View v) {
                     cartItemVector.remove(position);
                     cartItem.getItem().setClicked(false);
-                    Log.d("TAG", cartItem.getItem().toString());
                     cartItem.setQuantity(0);
                     cartItem.setTotalPrice(0);
                     cartTotalPrice.setText(String.valueOf(calculateTotal()));
+                    CartListService.getInstance().removeFromCart(cartItem);
                     notifyDataSetChanged();
                 }
             });
