@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,10 @@ public class CartActivity extends Activity {
                 if(cartItemVector.size() == 0){
                     Toast.makeText(CartActivity.this,"Shopping cart is empty !!",Toast.LENGTH_LONG).show();
 
+                }
+                else{
+                    Toast.makeText(CartActivity.this,"ORDER SENT ! THANK YOU !",Toast.LENGTH_LONG).show();
+                    checkoutButton.setVisibility(View.GONE);
                 }
             }
         });
@@ -146,7 +151,7 @@ public class CartActivity extends Activity {
             final TextView totalPrice = (TextView) convertView.findViewById(R.id.cart_list_row_totalPrice);
             final ImageView itemPicture = (ImageView) convertView.findViewById(R.id.cart_list_row_image);
             final TextView amount = (TextView) convertView.findViewById(R.id.cart_list_row_amount);
-
+final ProgressBar spinner = (ProgressBar)  convertView.findViewById(R.id.cart_list_spinner);
             itemName.setText(cartItem.getItem().getName());
             totalPrice.setText(String.valueOf(cartItem.getItem().getPrice()));
             amount.setText(String.valueOf(cartItem.getQuantity()));
@@ -194,6 +199,7 @@ public class CartActivity extends Activity {
                 @Override
                 public void onSuccess(Bitmap image) {
                     itemPicture.setImageBitmap(image);
+                    spinner.setVisibility(View.GONE);
                 }
 
                 @Override

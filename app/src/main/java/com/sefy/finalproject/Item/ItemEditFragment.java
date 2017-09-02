@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,6 +109,7 @@ public class ItemEditFragment extends Fragment {
         this.save = (Button) contentView.findViewById(R.id.item_edit_fragment_save);
         this.remove = (Button) contentView.findViewById(R.id.item_edit_fragment_remove);
         this.messageHandler = (TextView) contentView.findViewById(R.id.item_edit_fragment_messageHandler);
+        final ProgressBar spinner  = (ProgressBar)   contentView.findViewById(R.id.item_edit_spinner);
 
         this.name.setText(itemName);
         this.description.setText(itemDescription);
@@ -117,6 +119,7 @@ public class ItemEditFragment extends Fragment {
             @Override
             public void onSuccess(Bitmap image) {
                 _image.setImageBitmap(image);
+                spinner.setVisibility(View.GONE);
               //  notifyDataSetChanged();
            }
 

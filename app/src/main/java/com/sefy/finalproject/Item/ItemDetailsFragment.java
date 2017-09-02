@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +77,7 @@ public class ItemDetailsFragment extends Fragment {
         this.iName.setText(currentItem.getName());
         this.iPrice.setText(String.valueOf(currentItem.getPrice()));
         this.iDescription.setText(currentItem.getDescription());
-
+final ProgressBar spinner = (ProgressBar)  contentView.findViewById(R.id.item_details_spinner);
         this.addToCart = (ImageButton) contentView.findViewById(R.id.item_details_fragment_addToCart);
         this.addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +93,7 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onSuccess(Bitmap image) {
                 iImage.setImageBitmap(image);
+                spinner.setVisibility(View.GONE);
             }
 
             @Override

@@ -4,12 +4,14 @@
     android:layout_height="match_parent"
     tools:context="com.sefy.finalproject.Auth.LoginFragment"
     android:orientation="vertical">
-    <TextView
+
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login page"
-        android:layout_gravity="center"
-        android:textSize="50dp"/>
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:src="@drawable/loginmenu" />
 
     <ProgressBar
     android:layout_gravity="center"
@@ -24,12 +26,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="10dp">
+
         <TextView
+            android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Email:"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
+
         <EditText
             android:id="@+id/login_fragment_email"
             android:layout_width="0dp"
@@ -59,21 +64,25 @@
         android:layout_margin="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="1">
+
         <Button
             android:id="@+id/login_fragment_submit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="123dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
-            android:text="Login"/>
+            android:background="@drawable/btn_android"
+            android:text="Login" />
+
         <Button
             android:id="@+id/login_fragment_register_page"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
             android:layout_gravity="center"
-            android:text="Register"/>
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_android"
+            android:text="Register" />
 
     </LinearLayout>
 

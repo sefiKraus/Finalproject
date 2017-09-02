@@ -3,12 +3,19 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/cart_list_spinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="73dp"
+        android:layout_weight="0.86" />
+
     <ImageView
         android:id="@+id/cart_list_row_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
 
-        android:src="@drawable/armani_sunglasses"/>
+        />
 
     <LinearLayout
         android:layout_margin="10dp"

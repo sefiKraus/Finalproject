@@ -5,12 +5,14 @@
     tools:context="com.sefy.finalproject.Brand.BrandListFragment"
     android:orientation="vertical"
     >
-    <SearchView
-        android:id="@+id/brand_list_fragment_search"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        ></SearchView>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/brands" />
+
     <ListView
         android:id="@+id/brand_list_fragment_list"
         android:layout_width="match_parent"
