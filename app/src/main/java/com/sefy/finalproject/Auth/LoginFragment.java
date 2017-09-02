@@ -18,11 +18,9 @@ import com.sefy.finalproject.R;
 import java.util.regex.Pattern;
 
 public class LoginFragment extends Fragment {
-    //TODO: set email pattern validator and password pattern
     private OnLoginListener mListener;
     private EditText email,password;
     private Button login,register;
-    public ProgressBar spinner;
 
 
     public LoginFragment() {
@@ -49,8 +47,7 @@ public class LoginFragment extends Fragment {
 
         this.login = (Button) contentView.findViewById(R.id.login_fragment_submit);
         this.register = (Button) contentView.findViewById(R.id.login_fragment_register_page);
-        this.spinner = (ProgressBar) contentView.findViewById(R.id.login_fragment_progressBar);
-//        this.spinner.setVisibility(View.VISIBLE);
+
         /**
          * setting listeners
          */
@@ -59,7 +56,6 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
-                spinner.setVisibility(View.VISIBLE);
                 mListener.onSubmitLogin(userEmail,userPassword);
             }
         });

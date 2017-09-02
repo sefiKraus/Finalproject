@@ -12,14 +12,6 @@
         android:adjustViewBounds="true"
         android:src="@drawable/register" />
 
-    <ProgressBar
-        android:layout_gravity="center"
-        android:id="@+id/register_fragment_progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

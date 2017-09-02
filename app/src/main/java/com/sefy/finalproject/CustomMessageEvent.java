@@ -18,7 +18,7 @@ public class CustomMessageEvent {
     }
 
     public void setCartItem(CartItem cartItem) {
-        Log.d("TAG","received "+ cartItem.toString());
+
         this.cartItem = cartItem;
     }
 }

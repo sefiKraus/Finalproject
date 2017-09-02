@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.sefy.finalproject.Auth.AuthActivity"
     android:orientation="vertical">
+
+    <ProgressBar
+        android:layout_gravity="center"
+        android:id="@+id/auth_spinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
     <FrameLayout
         android:id="@+id/auth_frag_container"
         android:layout_width="match_parent"

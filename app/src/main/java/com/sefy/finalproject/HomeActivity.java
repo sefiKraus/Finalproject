@@ -80,13 +80,10 @@ public class HomeActivity extends Activity implements
     }
 
 
-
-    @Override
-    public void onBrandAdd(BrandModel brand) {
-        Log.d("TAG",brand.toString());
-    }
-
-
+    /**
+     * Changing view from item list to item view
+     * @param itemModel
+     */
     @Override
     public void onItemSelected(ItemModel itemModel) {
         ItemDetailsFragment fragment = ItemDetailsFragment.newInstance(itemModel);
@@ -98,7 +95,7 @@ public class HomeActivity extends Activity implements
     }
 
     /**
-     *
+     * Changes view to edit item
      * @param item
      * @param brandName
      * @param userEmail
@@ -115,35 +112,13 @@ public class HomeActivity extends Activity implements
 
     }
 
-    /**
-     * Create new item
-     * this method receives send back item from ItemAddFragment and will try to
-     * save it in database
-     * @param item
-     */
-    @Override
-    public void onAddItem(ItemModel item) {
-        Log.d("TAG", "onAddItem " + item.toString());
-    }
-
 
     /**
-     *
-     * @param name
-     * @param price
-     * @param description
-     * @param brand
-     * @param userEmail
+     * Changes view from edit item to item list after deleting the item
+     * @param brandName
      */
-    @Override
-    public void onItemEdit(String name, int price, String description, String brand, String userEmail) {
-        ItemModel itemModel = new ItemModel(name,price,null,description,brand,userEmail);
-        Log.d("TAG",itemModel.toString());
-    }
-
     @Override
     public void onItemRemove(String brandName) {
-
         ItemListFragment itemListFragment = ItemListFragment.newInstance(brandName , currentUser.getEmail());
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.brand_frag_container,itemListFragment);
@@ -209,17 +184,37 @@ public class HomeActivity extends Activity implements
                     this.menu.findItem(R.id.home_actionbar_add).setVisible(true);
 
                 }
+                /**
+                 * getting back from ItemDetailsFragment to ItemListFragment
+                 */
+                else if(this.currentFragment instanceof ItemDetailsFragment){
+                    toDisplay = ItemListFragment.newInstance(((ItemDetailsFragment)this.currentFragment).getBrandName()
+                            ,currentUser.getEmail());
+                    transaction.replace(R.id.brand_frag_container, toDisplay);
+                    transaction.addToBackStack("");
+                    transaction.commit();
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
+                    this.menu.findItem(R.id.home_actionbar_add).setVisible(true);
+
+                }
             }
             break;
             case R.id.home_actionbar_add:{
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                /**
+                 * Adding new brand
+                 */
                 if(this.currentFragment instanceof BrandListFragment){
                     toDisplay = BrandAddFragment.newInstance(currentUser.getEmail());
                     transaction.replace(R.id.brand_frag_container, toDisplay);
                     transaction.addToBackStack("");
                     transaction.commit();
                     getActionBar().setDisplayHomeAsUpEnabled(true);
+
                 }else if(this.currentFragment instanceof ItemListFragment){
+                    /**
+                     * Adding new item
+                     */
                     String itemListBrand = ((ItemListFragment) this.currentFragment).getBrandName();
                     toDisplay = ItemAddFragment.newInstance(itemListBrand,currentUser.getEmail());
                     transaction.replace(R.id.brand_frag_container, toDisplay);
@@ -230,12 +225,18 @@ public class HomeActivity extends Activity implements
             }
             break;
             case R.id.home_actionbar_cart:{
+                /**
+                 * Go to Shopping cart
+                 */
                 Intent cartActivity =  new Intent(getApplicationContext(), CartActivity.class);
                 cartActivity.putExtras(this.userDetails);
                 startActivity(cartActivity);
             }
             break;
             case R.id.home_actionbar_user_details:{
+                /**
+                 * Go to UserActivity
+                 */
                 Intent userActivity =  new Intent(getApplicationContext(), UserActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("userFirstName", currentUser.getFirstName());
@@ -247,6 +248,9 @@ public class HomeActivity extends Activity implements
             }
             break;
             case R.id.home_actionbar_logout:{
+                /**
+                 * Logout
+                 */
                 Intent authActivity = new Intent(getApplicationContext(), AuthActivity.class);
                 startActivity(authActivity);
             }

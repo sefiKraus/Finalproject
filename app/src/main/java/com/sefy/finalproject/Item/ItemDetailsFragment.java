@@ -15,10 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sefy.finalproject.Cart.CartListService;
+import com.sefy.finalproject.CustomMessageEvent;
 import com.sefy.finalproject.Model.CartItem;
 import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class ItemDetailsFragment extends Fragment {
 
@@ -41,6 +44,10 @@ public class ItemDetailsFragment extends Fragment {
     public ItemDetailsFragment() {
     }
 
+
+    public String getBrandName(){
+        return this.currentItem.getBrandName();
+    }
 
     public static ItemDetailsFragment newInstance(ItemModel itemModel) {
         ItemDetailsFragment fragment = new ItemDetailsFragment();
@@ -82,7 +89,9 @@ final ProgressBar spinner = (ProgressBar)  contentView.findViewById(R.id.item_de
         this.addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CartListService.getInstance().addToCart(new CartItem(currentItem,1 , currentItem.getPrice()));
+                CustomMessageEvent event = new CustomMessageEvent();
+                event.setCartItem(new CartItem(currentItem,1 , currentItem.getPrice()));
+                EventBus.getDefault().post(event);
                 Toast.makeText(getActivity(),"Item added to shopping list",Toast.LENGTH_LONG).show();
 
             }

@@ -94,7 +94,6 @@ public class ItemAddFragment extends Fragment {
         this.messageHandler = (TextView) contentView.findViewById(R.id.item_add_fragment_messageHandler);
         this.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            //TODO: insert if image is null condition
             public void onClick(View v) {
                 if(itemName.getText().toString().matches("")||
                    itemDescription.getText().toString().matches("")||
@@ -104,7 +103,6 @@ public class ItemAddFragment extends Fragment {
 
                 }
                 else{
-                    //TODO: create new item in data base and use listener
                     String name = itemName.getText().toString();
                     String description = itemDescription.getText().toString();
                     int price = Integer.parseInt(itemPrice.getText().toString());
@@ -182,7 +180,5 @@ public class ItemAddFragment extends Fragment {
         return this.brandName;
     }
     public interface OnItemLAddListener {
-        //TODO: handle image
-        void onAddItem(ItemModel item);
     }
 }

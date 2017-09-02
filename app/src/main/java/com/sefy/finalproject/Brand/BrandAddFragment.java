@@ -77,7 +77,6 @@ public class BrandAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String tempName = brandName.getText().toString();
-                Log.d("-==DEBUG==-","brandName is: "+tempName);
                 if(!brandName.getText().toString().matches("")){
                 dispatchTakePictureIntent();
                 }
@@ -89,12 +88,8 @@ public class BrandAddFragment extends Fragment {
         this.saveButton = (Button) contentView.findViewById(R.id.brand_add_fragment_save);
 
         this.saveButton.setOnClickListener(new View.OnClickListener() {
-            //TODO: set image empty condition
             @Override
             public void onClick(View v) {
-
-
-
                 if(brandName.getText().toString().matches("") ||
                         brandDescription.getText().toString().matches("") || imageurl == "" || imageurl == null){
 
@@ -111,7 +106,7 @@ public class BrandAddFragment extends Fragment {
                         public void onComplete(BrandModel brand) {
                             if(brand == null){
                                 if(brandManager.addBrandDB(brandModel)){
-                                    mListener.onBrandAdd(brandModel);
+                                    Toast.makeText(getActivity(),"Brand created successfully!",Toast.LENGTH_LONG).show();
                                 }
                             }else{
                                 Toast.makeText(getActivity(),"Brand already exists in database!",Toast.LENGTH_LONG).show();
@@ -173,13 +168,13 @@ public class BrandAddFragment extends Fragment {
 
                 @Override
                 public void fail() {
-Log.d("ERROR","saving image failed!");
+                    Toast.makeText(getActivity(),"Error while trying to add brand picture",Toast.LENGTH_LONG).show();
+
                 }
             });
 
         }
     }
     public interface OnBrandAddListener {
-        void onBrandAdd(BrandModel brand);
     }
 }

@@ -29,7 +29,6 @@ public class UserActivity extends Activity {
     private EditText firstName, lastName, password;
     private TextView email;
     private Button saveChanges;
-    private ImageView image;
     private boolean firstNameChanged, passChanged, lastNameChanged;
     private static UserManager userManager;
 
@@ -66,42 +65,20 @@ public class UserActivity extends Activity {
                 String lName = lastName.getText().toString();
                 String mail = email.getText().toString();
                 String pass = password.getText().toString();
+                if(fName.matches("") || lName.matches("") || mail.matches("")|| pass.matches("")){
+                    Toast.makeText(UserActivity.this,"Make sure that all fields are filled",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(userManager.add(new UserModel(fName,lName,mail,pass))){
+                        Toast.makeText(UserActivity.this,"User details changed successfully",Toast.LENGTH_LONG).show();
 
-                if(userManager.add(new UserModel(fName,lName,mail,pass))){
-                    Toast.makeText(UserActivity.this,"User details changed successfully",Toast.LENGTH_LONG).show();
+                    }
+                    Toast.makeText(UserActivity.this,"Error occurred while trying to update profile",Toast.LENGTH_LONG).show();
 
                 }
             }
         });
-        this.image = (ImageView) findViewById(R.id.user_details_image);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    dispatchTakePictureIntent();
-            }
-        });
         this.setEditTextChangeListeners();
-    }
-
-
-    /*-----------Handling taking picture------------------------*/
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            image.setImageBitmap(imageBitmap);
-        }
     }
 
     /*-----------------------------------------------*/
@@ -123,11 +100,6 @@ public class UserActivity extends Activity {
                     startActivity(homeActivity);
                 }
                 break;
-                case R.id.user_actionbar_edit:{
-                    Log.d("TAG","Navigate to edit profile");
-
-                }
-                break;
                 default:{
                     return super.onOptionsItemSelected(item);
 
@@ -137,7 +109,6 @@ public class UserActivity extends Activity {
     }
 
     private void setEditTextChangeListeners(){
-        //TODO:Fix bug!!
         this.firstName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -151,7 +122,6 @@ public class UserActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("TAG",s.toString());
                 if(!s.toString().matches(user.getFirstName())|| passChanged || lastNameChanged){
                     firstNameChanged = true;
                     saveChanges.setVisibility(View.VISIBLE);

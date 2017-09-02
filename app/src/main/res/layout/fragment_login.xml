@@ -13,14 +13,6 @@
         android:cropToPadding="true"
         android:src="@drawable/loginmenu" />
 
-    <ProgressBar
-    android:layout_gravity="center"
-    android:id="@+id/login_fragment_progressBar"
-    style="?android:attr/progressBarStyleLarge"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:visibility="gone"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
