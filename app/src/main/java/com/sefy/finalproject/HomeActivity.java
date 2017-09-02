@@ -82,12 +82,6 @@ public class HomeActivity extends Activity implements
 
 
     @Override
-    public void onBrandAdd(BrandModel brand) {
-        Log.d("TAG",brand.toString());
-    }
-
-
-    @Override
     public void onItemSelected(ItemModel itemModel) {
         ItemDetailsFragment fragment = ItemDetailsFragment.newInstance(itemModel);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -115,31 +109,6 @@ public class HomeActivity extends Activity implements
 
     }
 
-    /**
-     * Create new item
-     * this method receives send back item from ItemAddFragment and will try to
-     * save it in database
-     * @param item
-     */
-    @Override
-    public void onAddItem(ItemModel item) {
-        Log.d("TAG", "onAddItem " + item.toString());
-    }
-
-
-    /**
-     *
-     * @param name
-     * @param price
-     * @param description
-     * @param brand
-     * @param userEmail
-     */
-    @Override
-    public void onItemEdit(String name, int price, String description, String brand, String userEmail) {
-        ItemModel itemModel = new ItemModel(name,price,null,description,brand,userEmail);
-        Log.d("TAG",itemModel.toString());
-    }
 
     @Override
     public void onItemRemove(String brandName) {

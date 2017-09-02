@@ -18,7 +18,6 @@ import com.sefy.finalproject.R;
 import java.util.regex.Pattern;
 
 public class LoginFragment extends Fragment {
-    //TODO: set email pattern validator and password pattern
     private OnLoginListener mListener;
     private EditText email,password;
     private Button login,register;

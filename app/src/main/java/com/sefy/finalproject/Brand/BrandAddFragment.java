@@ -89,7 +89,6 @@ public class BrandAddFragment extends Fragment {
         this.saveButton = (Button) contentView.findViewById(R.id.brand_add_fragment_save);
 
         this.saveButton.setOnClickListener(new View.OnClickListener() {
-            //TODO: set image empty condition
             @Override
             public void onClick(View v) {
 
@@ -111,7 +110,7 @@ public class BrandAddFragment extends Fragment {
                         public void onComplete(BrandModel brand) {
                             if(brand == null){
                                 if(brandManager.addBrandDB(brandModel)){
-                                    mListener.onBrandAdd(brandModel);
+                                    Toast.makeText(getActivity(),"Brand created successfully!",Toast.LENGTH_LONG).show();
                                 }
                             }else{
                                 Toast.makeText(getActivity(),"Brand already exists in database!",Toast.LENGTH_LONG).show();
@@ -180,6 +179,5 @@ Log.d("ERROR","saving image failed!");
         }
     }
     public interface OnBrandAddListener {
-        void onBrandAdd(BrandModel brand);
     }
 }

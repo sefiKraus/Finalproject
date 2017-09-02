@@ -103,7 +103,6 @@ public class UserActivity extends Activity {
     }
 
     private void setEditTextChangeListeners(){
-        //TODO:Fix bug!!
         this.firstName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -35,7 +35,6 @@ public class ItemEditFragment extends Fragment {
     private static final String ITEM_PRICE = "itemPrice";
 
 
-    // TODO: Rename and change types of parameters
     private String itemName;
     private String itemDescription;
     private String brandName;
@@ -158,7 +157,6 @@ public class ItemEditFragment extends Fragment {
                         Toast.makeText(getActivity(),"Error occurred, please try again",Toast.LENGTH_LONG).show();
 
                     }
-                    mListener.onItemEdit(iName,iPrice,iDescription,brandName, userEmail);
                 }
             }
         });
@@ -233,8 +231,6 @@ public class ItemEditFragment extends Fragment {
         }
     }
     public interface OnItemEditListener {
-        //TODO: handle image in onItemEdit
-        void onItemEdit(String name , int price, String description , String brand , String userEmail);
         void onItemRemove(String brandName);
     }
 }
