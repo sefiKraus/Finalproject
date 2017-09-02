@@ -2,21 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sefy.finalproject.Brand.BrandListFragment"
+    android:background="@drawable/backg"
     android:orientation="vertical"
-    >
+    tools:context="com.sefy.finalproject.Brand.BrandListFragment">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/brands" />
+        android:text="Brands"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="50sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/brand_list_fragment_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-    </ListView>
+        android:layout_height="match_parent"></ListView>
 </LinearLayout>

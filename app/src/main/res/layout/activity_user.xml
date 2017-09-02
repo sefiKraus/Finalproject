@@ -4,60 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sefy.finalproject.User.UserActivity"
-    android:orientation="vertical">
+    android:background="@drawable/backg"
+    android:orientation="vertical"
+    tools:context="com.sefy.finalproject.User.UserActivity">
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="First name: "
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
+
         <EditText
             android:id="@+id/user_details_firstName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            />
+            android:layout_weight="2" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Last name: "
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
+
         <EditText
             android:id="@+id/user_details_lastName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            />
+            android:layout_weight="2" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Email: "
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
+
         <TextView
             android:id="@+id/user_details_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            />
+            android:layout_weight="2" />
     </LinearLayout>
 
     <LinearLayout
@@ -84,8 +90,8 @@
         android:id="@+id/user_details_saveChanges"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save changes"
-        android:layout_margin="10dp"
         android:layout_gravity="center"
-        android:visibility="invisible"/>
+        android:layout_margin="10dp"
+        android:text="Save changes"
+        android:visibility="invisible" />
 </LinearLayout>

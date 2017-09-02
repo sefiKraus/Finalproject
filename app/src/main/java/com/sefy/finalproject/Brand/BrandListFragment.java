@@ -28,7 +28,7 @@ import java.util.Vector;
 public class BrandListFragment extends Fragment{
     BrandListAdapter adapter;
     private ListView brandList;
-    private SearchView searchBar;
+  //  private SearchView searchBar;
     private static List<BrandModel> brandListVector;
     private static final String USER_EMAIL = "userEmail";
     private static final String ARG_PARAM2 = "param2";
@@ -98,6 +98,7 @@ public class BrandListFragment extends Fragment{
         /**
          * setting search listener
          */
+        /*
         this.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -112,7 +113,7 @@ public class BrandListFragment extends Fragment{
             }
         });
 
-
+*/
         /**
          * Setting on item click listener
          */

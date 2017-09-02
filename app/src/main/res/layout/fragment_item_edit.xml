@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sefy.finalproject.Item.ItemEditFragment"
-    android:orientation="vertical">
+    android:background="@drawable/backg"
+    android:orientation="vertical"
+    tools:context="com.sefy.finalproject.Item.ItemEditFragment">
 
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <ProgressBar
@@ -24,41 +25,43 @@
             android:layout_gravity="center" />
 
         <TextView
-            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Select image"/>
+            android:layout_margin="10dp"
+            android:text="Select image" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Item Name:"/>
+            android:text="Item Name:" />
+
         <EditText
             android:id="@+id/item_edit_fragment_itemName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Item Price:"/>
+            android:text="Item Price:" />
 
         <EditText
             android:id="@+id/item_edit_fragment_itemPrice"
@@ -69,14 +72,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="10dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Item Description:"/>
+            android:text="Item Description:" />
 
         <EditText
             android:id="@+id/item_edit_fragment_itemDescription"
@@ -85,27 +89,31 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/item_edit_fragment_remove"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="143dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
-            android:text="Delete item"/>
+            android:background="@drawable/btn_android"
+            android:text="Delete item" />
+
         <Button
             android:id="@+id/item_edit_fragment_save"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="143dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
-            android:text="Save changes"/>
+            android:background="@drawable/btn_android"
+            android:text="Save changes" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/item_edit_fragment_messageHandler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="10dp"
-        />
+        android:textSize="10dp" />
 </LinearLayout>
