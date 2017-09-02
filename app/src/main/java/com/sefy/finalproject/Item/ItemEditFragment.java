@@ -112,19 +112,19 @@ public class ItemEditFragment extends Fragment {
         this.name.setText(itemName);
         this.description.setText(itemDescription);
         this.price.setText(String.valueOf(itemPrice));
-//        ImageManager imageman= new ImageManager();
-//        imageman.loadImageFromCache(imageurl, new ImageManager.GetImageListener() {
-//            @Override
-//            public void onSuccess(Bitmap image) {
-//                _image.setImageBitmap(image);
-//              //  notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFail() {
-//
-//            }
-//        });
+        ImageManager imageman= new ImageManager();
+        imageman.loadImageFromCache(imageurl, new ImageManager.GetImageListener() {
+            @Override
+            public void onSuccess(Bitmap image) {
+                _image.setImageBitmap(image);
+              //  notifyDataSetChanged();
+           }
+
+           @Override
+            public void onFail() {
+
+           }
+        });
 
 
 
@@ -134,8 +134,10 @@ public class ItemEditFragment extends Fragment {
         this.save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 if(name.getText().toString().matches("")||
-                   price.getText().toString().matches("")){
+                   price.getText().toString().matches("")||imageurl == "" || imageurl == null){
                     Toast.makeText(getActivity(),"Please insert all required fields",Toast.LENGTH_LONG).show();
 
                 }

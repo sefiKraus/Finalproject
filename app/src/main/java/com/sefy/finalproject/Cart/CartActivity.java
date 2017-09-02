@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.sefy.finalproject.HomeActivity;
 import com.sefy.finalproject.Item.ItemListFragment;
 import com.sefy.finalproject.Model.CartItem;
+import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
 import com.sefy.finalproject.User.UserActivity;
@@ -142,7 +144,7 @@ public class CartActivity extends Activity {
 
             TextView itemName = (TextView) convertView.findViewById(R.id.cart_list_row_itemName);
             final TextView totalPrice = (TextView) convertView.findViewById(R.id.cart_list_row_totalPrice);
-            ImageView itemPricture = (ImageView) convertView.findViewById(R.id.cart_list_row_image);
+            final ImageView itemPicture = (ImageView) convertView.findViewById(R.id.cart_list_row_image);
             final TextView amount = (TextView) convertView.findViewById(R.id.cart_list_row_amount);
 
             itemName.setText(cartItem.getItem().getName());
@@ -187,7 +189,18 @@ public class CartActivity extends Activity {
                 }
             });
             //itemPricture
+            ImageManager imageManager = new ImageManager();
+            imageManager.loadImageFromCache(cartItem.getItem().getImage(), new ImageManager.GetImageListener() {
+                @Override
+                public void onSuccess(Bitmap image) {
+                    itemPicture.setImageBitmap(image);
+                }
 
+                @Override
+                public void onFail() {
+
+                }
+            });
 
             return convertView;
         }
