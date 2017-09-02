@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -237,6 +238,7 @@ public class ItemListFragment extends Fragment {
             TextView itemName = (TextView) convertView.findViewById(R.id.item_list_row_name);
             TextView itemDescription = (TextView) convertView.findViewById(R.id.item_list_row_description);
             TextView itemPrice = (TextView) convertView.findViewById(R.id.item_list_row_price);
+            final ProgressBar spinner = (ProgressBar) convertView.findViewById(R.id.item_list_row_spinner);
             final ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.item_list_row_add_to_cart);
             addToCart.setFocusable(false);
             final ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_list_row_image);
@@ -247,6 +249,7 @@ public class ItemListFragment extends Fragment {
                 @Override
                 public void onSuccess(Bitmap image) {
                    itemImage.setImageBitmap(image);
+                    spinner.setVisibility(View.GONE);
                  //   notifyDataSetChanged();
                 }
 
