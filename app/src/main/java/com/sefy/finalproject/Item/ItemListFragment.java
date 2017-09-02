@@ -1,13 +1,9 @@
 package com.sefy.finalproject.Item;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sefy.finalproject.Cart.CartListService;
 import com.sefy.finalproject.CustomMessageEvent;
-import com.sefy.finalproject.Events.CartAddEvent;
-import com.sefy.finalproject.Events.CartRemoveEvent;
-import com.sefy.finalproject.HomeActivity;
 import com.sefy.finalproject.Model.BrandManager;
 import com.sefy.finalproject.Model.BrandModel;
 import com.sefy.finalproject.Model.CartItem;
@@ -33,7 +24,6 @@ import com.sefy.finalproject.Model.ImageManager;
 import com.sefy.finalproject.Model.ItemManager;
 import com.sefy.finalproject.Model.ItemModel;
 import com.sefy.finalproject.R;
-import com.sefy.finalproject.User.UserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -226,9 +216,10 @@ public class ItemListFragment extends Fragment {
                         public void onClick(View v) {
                             ItemModel item = itemListVector.get((int)v.getTag());
                             CartItem cartItem = new CartItem(item,1,item.getPrice());
-                            CartListService.getInstance().addToCart(cartItem);
                             Toast.makeText(getActivity(),"Item added to shopping list",Toast.LENGTH_LONG).show();
-
+                            CustomMessageEvent event = new CustomMessageEvent();
+                            event.setCartItem(cartItem);
+                            EventBus.getDefault().post(event);
                         }
                     });
                 }

@@ -1,14 +1,6 @@
 package com.sefy.finalproject.Cart;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.Binder;
-import android.os.IBinder;
-import android.util.Log;
-
 import com.sefy.finalproject.CustomMessageEvent;
-import com.sefy.finalproject.Events.CartAddEvent;
-import com.sefy.finalproject.Events.CartRemoveEvent;
 import com.sefy.finalproject.Model.CartItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,10 +17,12 @@ public class CartListService {
     private static final CartListService instance = new CartListService();
 
     private CartListService(){
+        EventBus.getDefault().register(this);
         cartItemVector = new Vector<>();
     }
 
     public static CartListService getInstance() {
+
         return instance;
     }
 
@@ -69,10 +63,15 @@ public class CartListService {
             }
         }
 
-        Log.d("TAG"," "+ getInstance().cartItemVector.size());
     }
     public Vector<CartItem> getCartItemVector() {
         return cartItemVector;
     }
+
+    @Subscribe
+    public void onMessageEvent(CustomMessageEvent event) {
+        this.addToCart(event.getCartItem());
+    };
+
 
 }
