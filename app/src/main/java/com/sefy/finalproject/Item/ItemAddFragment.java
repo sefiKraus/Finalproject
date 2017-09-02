@@ -79,7 +79,6 @@ public class ItemAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String tempName = itemName.getText().toString();
-                Log.d("-==DEBUG==-","brandName is: "+tempName);
                 if(!itemName.getText().toString().matches("")){
                     dispatchTakePictureIntent();
                 }
