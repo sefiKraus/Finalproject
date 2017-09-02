@@ -177,7 +177,9 @@ public class BrandListFragment extends Fragment{
             brandDescription.setText(brand.getDescription());
             brandImage.setTag(position);
 
-
+            /**
+             * loading image from database
+             */
             ImageManager imageman= new ImageManager();
             imageman.loadImageFromCache(brand.getImage(), new ImageManager.GetImageListener() {
                 @Override

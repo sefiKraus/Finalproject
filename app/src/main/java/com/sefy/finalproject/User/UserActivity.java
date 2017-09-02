@@ -65,9 +65,15 @@ public class UserActivity extends Activity {
                 String lName = lastName.getText().toString();
                 String mail = email.getText().toString();
                 String pass = password.getText().toString();
+                if(fName.matches("") || lName.matches("") || mail.matches("")|| pass.matches("")){
+                    Toast.makeText(UserActivity.this,"Make sure that all fields are filled",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(userManager.add(new UserModel(fName,lName,mail,pass))){
+                        Toast.makeText(UserActivity.this,"User details changed successfully",Toast.LENGTH_LONG).show();
 
-                if(userManager.add(new UserModel(fName,lName,mail,pass))){
-                    Toast.makeText(UserActivity.this,"User details changed successfully",Toast.LENGTH_LONG).show();
+                    }
+                    Toast.makeText(UserActivity.this,"Error occurred while trying to update profile",Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -116,7 +122,6 @@ public class UserActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("TAG",s.toString());
                 if(!s.toString().matches(user.getFirstName())|| passChanged || lastNameChanged){
                     firstNameChanged = true;
                     saveChanges.setVisibility(View.VISIBLE);

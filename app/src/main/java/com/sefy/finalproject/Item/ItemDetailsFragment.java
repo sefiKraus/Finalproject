@@ -91,7 +91,6 @@ public class ItemDetailsFragment extends Fragment {
                 CustomMessageEvent event = new CustomMessageEvent();
                 event.setCartItem(new CartItem(currentItem,1 , currentItem.getPrice()));
                 EventBus.getDefault().post(event);
-
                 Toast.makeText(getActivity(),"Item added to shopping list",Toast.LENGTH_LONG).show();
 
             }

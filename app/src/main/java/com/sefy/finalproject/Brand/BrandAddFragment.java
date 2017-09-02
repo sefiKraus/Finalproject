@@ -77,7 +77,6 @@ public class BrandAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String tempName = brandName.getText().toString();
-                Log.d("-==DEBUG==-","brandName is: "+tempName);
                 if(!brandName.getText().toString().matches("")){
                 dispatchTakePictureIntent();
                 }
@@ -91,9 +90,6 @@ public class BrandAddFragment extends Fragment {
         this.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
                 if(brandName.getText().toString().matches("") ||
                         brandDescription.getText().toString().matches("") || imageurl == "" || imageurl == null){
 
@@ -172,7 +168,8 @@ public class BrandAddFragment extends Fragment {
 
                 @Override
                 public void fail() {
-Log.d("ERROR","saving image failed!");
+                    Toast.makeText(getActivity(),"Error while trying to add brand picture",Toast.LENGTH_LONG).show();
+
                 }
             });
 

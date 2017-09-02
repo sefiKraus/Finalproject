@@ -26,6 +26,10 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
     private UserManager userManager;
     private ProgressBar spinner;
 
+    /**
+     *  OnCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +47,20 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         transaction.commit();
     }
 
-
+    /**
+     * onSubmitLogin using login method that will handle verifying the user details
+     * @param userEmail
+     * @param userPassword
+     */
     @Override
     public void onSubmitLogin(String userEmail, String userPassword) {
         this.login(userEmail,userPassword);
 
     }
 
+    /**
+     * Change view from login page to register page
+     */
     @Override
     public void onClickRegisterButton() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -59,11 +70,21 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         fragmentTransaction.commit();
     }
 
+    /**
+     * onSubmitRegister using register method that will handle register the user
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     */
     @Override
     public void onSubmitRegister(String firstName, String lastName, String email, String password) {
         this.register(firstName,lastName,email,password);
     }
 
+    /**
+     * Change view from register page to login page
+     */
     @Override
     public void onLoginButtonClicked() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -164,6 +185,11 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
         }
     }
 
+    /**
+     * validating email pattern
+     * @param email
+     * @return
+     */
     private boolean validEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();

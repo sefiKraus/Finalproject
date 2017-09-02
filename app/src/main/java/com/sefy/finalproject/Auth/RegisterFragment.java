@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.sefy.finalproject.R;
 
@@ -51,7 +52,15 @@ public class RegisterFragment extends Fragment {
                 String userPassword = password.getText().toString();
                 String userFirstName = firstName.getText().toString();
                 String userLastName = lastName.getText().toString();
-                mListener.onSubmitRegister(userFirstName,userLastName,userEmail,userPassword);
+                if(userEmail.matches("") || userPassword.matches("") || userFirstName.matches("") || userLastName.matches(""))
+                {
+                    Toast.makeText(getActivity(),"Please insert all required fields !!!",Toast.LENGTH_LONG).show();
+
+                }
+                else{
+                    mListener.onSubmitRegister(userFirstName,userLastName,userEmail,userPassword);
+
+                }
 
             }
         });
