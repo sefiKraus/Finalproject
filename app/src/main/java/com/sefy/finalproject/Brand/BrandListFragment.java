@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -73,7 +74,7 @@ public class BrandListFragment extends Fragment{
         View contentView =  inflater.inflate(R.layout.fragment_brand_list, container, false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         this.brandList = (ListView) contentView.findViewById(R.id.brand_list_fragment_list);
-        this.searchBar = (SearchView) contentView.findViewById(R.id.brand_list_fragment_search);
+
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);
         brandManager.getAllBrandsAndObserve(new BrandManager.GetBrandListCallback() {
@@ -199,7 +200,7 @@ public class BrandListFragment extends Fragment{
             TextView brandName = (TextView) convertView.findViewById(R.id.brand_item_name);
              brandImage =(ImageView) convertView.findViewById(R.id.brand_item_picture);
             TextView brandDescription = (TextView) convertView.findViewById(R.id.brand_item_description);
-
+            final ProgressBar spinner = (ProgressBar) convertView.findViewById(R.id.brand_item_spinner);
             brandName.setText(brand.getName());
             brandDescription.setText(brand.getDescription());
             brandImage.setTag(position);
@@ -212,6 +213,7 @@ public class BrandListFragment extends Fragment{
                 public void onSuccess(Bitmap image) {
 
                     brandImage.setImageBitmap(image);
+                    spinner.setVisibility(View.GONE);
                     // notifyDataSetChanged();
                 }
 
