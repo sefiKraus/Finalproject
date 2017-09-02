@@ -58,7 +58,7 @@ public class ImageManager {
     private void saveImageToFile(Bitmap imageBitmap, String imageFileName){
         try {
             File dir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES);
+                    Environment.DIRECTORY_PICTURES);//inside phone image path
             if (!dir.exists()) {
                 dir.mkdir();
                 Log.d("-====DEBUG====-","dir doesnt exist creating a new one");
