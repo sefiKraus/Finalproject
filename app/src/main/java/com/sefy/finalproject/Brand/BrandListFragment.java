@@ -27,7 +27,6 @@ import java.util.Vector;
 public class BrandListFragment extends Fragment{
     BrandListAdapter adapter;
     private ListView brandList;
-    private SearchView searchBar;
     private static List<BrandModel> brandListVector;
     private static final String USER_EMAIL = "userEmail";
     private static final String ARG_PARAM2 = "param2";
@@ -73,7 +72,6 @@ public class BrandListFragment extends Fragment{
         View contentView =  inflater.inflate(R.layout.fragment_brand_list, container, false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         this.brandList = (ListView) contentView.findViewById(R.id.brand_list_fragment_list);
-        this.searchBar = (SearchView) contentView.findViewById(R.id.brand_list_fragment_search);
         this.adapter = new BrandListAdapter();
         this.brandList.setAdapter(this.adapter);
         brandManager.getAllBrandsAndObserve(new BrandManager.GetBrandListCallback() {
@@ -93,30 +91,6 @@ public class BrandListFragment extends Fragment{
         });
 
 
-
-        /**
-         * setting search listener
-         */
-        this.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d("TAG","Brand list fragment search bar onQueryTextSubmit: "+query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Log.d("TAG","Brand list fragment search bar onQueryTextChange: " + newText);
-                return false;
-            }
-        });
-
-
-        /**
-         * Setting on item click listener
-         */
-        //TODO: later on when firebase model is complete use adapter.notifyDataSetChanged() when new elements will update
-        // in firebase
         this.brandList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,7 +99,6 @@ public class BrandListFragment extends Fragment{
                  * calling mListener to notify HomeActivity to change view to ItemList fragment that belongs to
                  * brandListVector.get(position)
                  */
-                Log.d("TAG","clicked on position " + brandListVector.get(position).toString());
                 BrandModel brand = brandListVector.get(position);
                 mListener.onBrandSelected(brand.getName() , userEmail);
 
@@ -203,7 +176,6 @@ public class BrandListFragment extends Fragment{
             brandName.setText(brand.getName());
             brandDescription.setText(brand.getDescription());
             brandImage.setTag(position);
-            Log.d("-==DEBUG==-","getView was called for position: "+position);
 
 
             ImageManager imageman= new ImageManager();
@@ -212,7 +184,6 @@ public class BrandListFragment extends Fragment{
                 public void onSuccess(Bitmap image) {
 
                     brandImage.setImageBitmap(image);
-                    // notifyDataSetChanged();
                 }
 
                 @Override

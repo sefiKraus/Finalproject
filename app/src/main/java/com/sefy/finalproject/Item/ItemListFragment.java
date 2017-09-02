@@ -43,7 +43,6 @@ public class ItemListFragment extends Fragment {
 
     private ListView itemList;
     private ImageView brandImage;
-    private SearchView searchBar;
     private TextView brandNameText, brandDescriptionText;
     private static List<ItemModel> itemListVector;
 
@@ -85,7 +84,6 @@ public class ItemListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.fragment_item_list, container, false);
-        this.searchBar = (SearchView) contentView.findViewById(R.id.item_list_fragment_search);
         this.brandImage = (ImageView) contentView.findViewById(R.id.item_list_fragment_brand_image);
         this.brandNameText = (TextView) contentView.findViewById(R.id.item_list_fragment_brand_name);
         this.brandDescriptionText = (TextView) contentView.findViewById(R.id.item_list_fragment_brand_description);
