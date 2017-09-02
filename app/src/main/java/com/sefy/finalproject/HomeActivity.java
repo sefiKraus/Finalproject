@@ -209,6 +209,16 @@ public class HomeActivity extends Activity implements
                     this.menu.findItem(R.id.home_actionbar_add).setVisible(true);
 
                 }
+                else if(this.currentFragment instanceof ItemDetailsFragment){
+                    toDisplay = ItemListFragment.newInstance(((ItemDetailsFragment)this.currentFragment).getBrandName()
+                            ,currentUser.getEmail());
+                    transaction.replace(R.id.brand_frag_container, toDisplay);
+                    transaction.addToBackStack("");
+                    transaction.commit();
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
+                    this.menu.findItem(R.id.home_actionbar_add).setVisible(true);
+
+                }
             }
             break;
             case R.id.home_actionbar_add:{

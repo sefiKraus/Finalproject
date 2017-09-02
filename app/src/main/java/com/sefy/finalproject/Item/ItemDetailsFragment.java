@@ -41,6 +41,10 @@ public class ItemDetailsFragment extends Fragment {
     }
 
 
+    public String getBrandName(){
+        return this.currentItem.getBrandName();
+    }
+
     public static ItemDetailsFragment newInstance(ItemModel itemModel) {
         ItemDetailsFragment fragment = new ItemDetailsFragment();
         Bundle args = new Bundle();

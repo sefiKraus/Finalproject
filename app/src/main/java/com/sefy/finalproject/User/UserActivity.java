@@ -29,7 +29,6 @@ public class UserActivity extends Activity {
     private EditText firstName, lastName, password;
     private TextView email;
     private Button saveChanges;
-    private ImageView image;
     private boolean firstNameChanged, passChanged, lastNameChanged;
     private static UserManager userManager;
 
@@ -73,35 +72,7 @@ public class UserActivity extends Activity {
                 }
             }
         });
-        this.image = (ImageView) findViewById(R.id.user_details_image);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    dispatchTakePictureIntent();
-            }
-        });
         this.setEditTextChangeListeners();
-    }
-
-
-    /*-----------Handling taking picture------------------------*/
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            image.setImageBitmap(imageBitmap);
-        }
     }
 
     /*-----------------------------------------------*/
@@ -121,11 +92,6 @@ public class UserActivity extends Activity {
                     Intent homeActivity =  new Intent(getApplicationContext(), HomeActivity.class);
                     homeActivity.putExtras(this.userDetails);
                     startActivity(homeActivity);
-                }
-                break;
-                case R.id.user_actionbar_edit:{
-                    Log.d("TAG","Navigate to edit profile");
-
                 }
                 break;
                 default:{
