@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sefy.finalproject.HomeActivity;
@@ -22,12 +24,13 @@ import java.util.regex.Pattern;
 public class AuthActivity extends Activity implements RegisterFragment.OnRegisterListener, LoginFragment.OnLoginListener {
 
     private UserManager userManager;
-
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        this.spinner = (ProgressBar) findViewById(R.id.auth_spinner);
         userManager = new UserManager();
 
                LoginFragment loginFragment = LoginFragment.newInstance();
@@ -84,12 +87,15 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
             Toast.makeText(this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
         }
         else{
+            spinner.setVisibility(View.VISIBLE);
             this.userManager.getUserDB(email, new UserManager.GetUserCallback() {
                 @Override
                 public void onComplete(UserModel user) {
                     if(user == null){
                         UserModel newUser = new UserModel(firstName,lastName,email,password);
                         if(userManager.addUserDB(newUser)) {
+                            spinner.setVisibility(View.GONE);
+                            Toast.makeText(AuthActivity.this,"Register successfully !!!",Toast.LENGTH_LONG).show();
                             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                             LoginFragment loginFragment = LoginFragment.newInstance();
                             fragmentTransaction.replace(R.id.auth_frag_container, loginFragment);
@@ -98,9 +104,8 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
                         }
                     }
                     else{
-                        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.auth_frag_container);
+                        spinner.setVisibility(View.GONE);
                         Toast.makeText(AuthActivity.this,"Email already in use !!!",Toast.LENGTH_LONG).show();
-
                     }
                 }
 
@@ -122,14 +127,16 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
     private void login(String email, final String password){
         if(validEmail(email))
         {
-
+            spinner.setVisibility(View.VISIBLE);
             this.userManager.getUserDB(email, new UserManager.GetUserCallback() {
                 @Override
                 public void onComplete(UserModel user) {
                     if(user == null){
+                        spinner.setVisibility(View.GONE);
                         Toast.makeText(AuthActivity.this,"Error occurred please verify email and password",Toast.LENGTH_LONG).show();
                     }else{
                         if(!user.getPassword().equals(password)){
+                            spinner.setVisibility(View.GONE);
                             Toast.makeText(AuthActivity.this,"Error occurred please verify email and password",Toast.LENGTH_LONG).show();
                         }else{
                              Intent homeActivity =  new Intent(getApplicationContext(), HomeActivity.class);
@@ -139,6 +146,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
                             bundle.putString("userEmail", user.getEmail());
                             bundle.putString("userPassword", user.getPassword());
                             homeActivity.putExtras(bundle);
+                            spinner.setVisibility(View.GONE);
                             startActivity(homeActivity);
                         }
                     }
