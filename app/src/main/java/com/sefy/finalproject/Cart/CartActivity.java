@@ -76,7 +76,7 @@ public class CartActivity extends Activity {
     protected void onStart() {
         super.onStart();
         this.cartItemVector = CartListService.getInstance().getCartItemVector();
-        this.cartTotalPrice.setText(String.valueOf(calculateTotal()));
+        this.cartTotalPrice.setText(String.valueOf(calculateTotal()) + "$");
     }
 
     int calculateTotal() {
@@ -151,9 +151,9 @@ public class CartActivity extends Activity {
             final TextView totalPrice = (TextView) convertView.findViewById(R.id.cart_list_row_totalPrice);
             final ImageView itemPicture = (ImageView) convertView.findViewById(R.id.cart_list_row_image);
             final TextView amount = (TextView) convertView.findViewById(R.id.cart_list_row_amount);
-final ProgressBar spinner = (ProgressBar)  convertView.findViewById(R.id.cart_list_spinner);
+            final ProgressBar spinner = (ProgressBar)  convertView.findViewById(R.id.cart_list_spinner);
             itemName.setText(cartItem.getItem().getName());
-            totalPrice.setText(String.valueOf(cartItem.getItem().getPrice()));
+            totalPrice.setText(String.valueOf(cartItem.getItem().getPrice()) +"$");
             amount.setText(String.valueOf(cartItem.getQuantity()));
             Button remove = (Button) convertView.findViewById(R.id.cart_list_row_remove);
             Button minus = (Button) convertView.findViewById(R.id.cart_list_row_minus);
@@ -165,7 +165,7 @@ final ProgressBar spinner = (ProgressBar)  convertView.findViewById(R.id.cart_li
                     if(cartItem.getQuantity() != 0){
                         cartItem.setQuantity(cartItem.getQuantity()-1);
                         amount.setText(String.valueOf(cartItem.getQuantity()));
-                        cartTotalPrice.setText(String.valueOf(calculateTotal()));
+                        cartTotalPrice.setText(String.valueOf(calculateTotal()) + "$");
                     }
                 }
             });
@@ -175,7 +175,7 @@ final ProgressBar spinner = (ProgressBar)  convertView.findViewById(R.id.cart_li
                 public void onClick(View v) {
                     cartItem.setQuantity(cartItem.getQuantity()+1);
                     amount.setText(String.valueOf(cartItem.getQuantity()));
-                    cartTotalPrice.setText(String.valueOf(calculateTotal()));
+                    cartTotalPrice.setText(String.valueOf(calculateTotal()) + "$");
                 }
             });
 
@@ -188,7 +188,7 @@ final ProgressBar spinner = (ProgressBar)  convertView.findViewById(R.id.cart_li
                     cartItem.getItem().setClicked(false);
                     cartItem.setQuantity(0);
                     cartItem.setTotalPrice(0);
-                    cartTotalPrice.setText(String.valueOf(calculateTotal()));
+                    cartTotalPrice.setText(String.valueOf(calculateTotal()) + "$");
                     CartListService.getInstance().removeFromCart(cartItem);
                     notifyDataSetChanged();
                 }
