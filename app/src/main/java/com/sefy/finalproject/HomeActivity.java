@@ -231,6 +231,7 @@ public class HomeActivity extends Activity implements
                 Intent cartActivity =  new Intent(getApplicationContext(), CartActivity.class);
                 cartActivity.putExtras(this.userDetails);
                 startActivity(cartActivity);
+                finish();
             }
             break;
             case R.id.home_actionbar_user_details:{
@@ -245,6 +246,7 @@ public class HomeActivity extends Activity implements
                 bundle.putString("userPassword", currentUser.getPassword());
                 userActivity.putExtras(bundle);
                 startActivity(userActivity);
+                finish();
             }
             break;
             case R.id.home_actionbar_logout:{
@@ -253,6 +255,7 @@ public class HomeActivity extends Activity implements
                  */
                 Intent authActivity = new Intent(getApplicationContext(), AuthActivity.class);
                 startActivity(authActivity);
+                finish();
             }
             break;
             default:{

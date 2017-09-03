@@ -108,6 +108,7 @@ public class CartActivity extends Activity {
                 Intent homeActivity = new Intent(getApplicationContext() , HomeActivity.class);
                 homeActivity.putExtras(this.userDetails);
                 startActivity(homeActivity);
+                finish();
             }
             break;
             default:{

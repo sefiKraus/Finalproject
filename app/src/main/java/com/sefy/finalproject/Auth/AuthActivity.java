@@ -169,6 +169,7 @@ public class AuthActivity extends Activity implements RegisterFragment.OnRegiste
                             homeActivity.putExtras(bundle);
                             spinner.setVisibility(View.GONE);
                             startActivity(homeActivity);
+                            finish();
                         }
                     }
                 }
